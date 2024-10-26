@@ -1,0 +1,29 @@
+# Node.js (backend)
+/backend/**/node_modules/
+/backend/**/dist/
+/backend/**/.env
+/backend/**/.env.local
+/backend/**/.DS_Store
+/backend/**/logs/
+/backend/**/coverage/
+
+# React (frontend)
+/frontend/node_modules/
+/frontend/build/
+/frontend/.env
+/frontend/.env.local
+/frontend/.DS_Store
+/frontend/logs/
+
+# IDE or editor specific files
+*.swp
+*.swo
+*.lock
+*.log
+.vscode/
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
