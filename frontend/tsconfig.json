@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -24,3 +24,15 @@
     "src"
   ]
 }
+
+/*
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "strict": true,
+    "module": "esnext",
+    "target": "es6",
+    "moduleResolution": "node"
+  }
+}
+*/

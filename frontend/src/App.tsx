@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import SignUp from './auth/SignUp';
+import AdditionalInfo from './auth/AdditionalInfo';
+import LandingPage from './LandingPage';
+import Login from './auth/Login';
+import PatientDashboard from './patient/PatientDashboard';
+import AdminDashboard from './admin/AdminDashboard';
+import DoctorDashboard from './doctor/DoctorDashboard';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} /> 
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/additional-info" element={<AdditionalInfo />} />
+        <Route path='/patient-dashboard' element={<PatientDashboard />} />
+        <Route path='admin-dashboard' element={<AdminDashboard />} />
+        <Route path='/doctor-dashboard' element={<DoctorDashboard />} />
+        {/*<Route path="/patient-dashboard" element={<PatientDashboard />} />*/}
+
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
