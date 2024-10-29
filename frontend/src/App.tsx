@@ -32,7 +32,7 @@ const App: React.FC = () => {
         <Route path='/patient/get-history' element= {<GetHistory />} />
         <Route path='/patient/update-profile' element={<UpdateDetails />} />
 
-        <Route path='admin/dashboard' element={<AdminDashboard />} />
+        <Route path='/admin/dashboard' element={<AdminDashboard />} />
 
         <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
 

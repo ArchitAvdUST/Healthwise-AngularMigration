@@ -38,6 +38,16 @@ const PatientNavbar: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleUpdateProfile = (event: React.MouseEvent<HTMLElement>) => {
+    handleClose();
+    navigate('/patient/update-profile');
+  }
+
+  const handleGetHistory = (event: React.MouseEvent<HTMLElement>) => {
+    handleClose();
+    navigate('/patient/get-history');
+  }
+
   // Handle dropdown menu close
   const handleClose = () => {
     setAnchorEl(null);
@@ -70,7 +80,7 @@ const PatientNavbar: React.FC = () => {
             {patientName}
           </Typography>
           <Avatar />
-          <IconButton onClick={handleMenuOpen} size="small">
+          <IconButton onClick={handleMenuOpen} size="medium">
             <ArrowDropDownIcon />
           </IconButton>
         </div>
@@ -89,8 +99,8 @@ const PatientNavbar: React.FC = () => {
             horizontal: 'center',
           }}
         >
-          <MenuItem onClick={handleClose}>Update Profile Details</MenuItem>
-          <MenuItem onClick={handleClose}>View History</MenuItem>
+          <MenuItem onClick={handleUpdateProfile}>Update Profile Details</MenuItem>
+          <MenuItem onClick={handleGetHistory}>View History</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Toolbar>

@@ -13,7 +13,7 @@ const PatientDashboard: React.FC = () => {
       try {
         setLoading(true);
         const token = sessionStorage.getItem('token');
-        const response = await axios.get('/api/patient', {
+        const response = await axios.get('/api/patient/', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPatientName(response.data.name);
