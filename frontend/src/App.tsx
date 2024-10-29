@@ -10,6 +10,9 @@ import DoctorDashboard from './doctor/DoctorDashboard';
 import GetAppointments from './patient/GetAppointments';
 import BookAppointment from './patient/BookAppointment';
 import DoctorSelection from './patient/DoctorSelection';
+import ChooseAppointment from './patient/ChooseAppointment';
+import GetHistory from './patient/GetHistory';
+import UpdateDetails from './patient/UpdateProfile';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +28,9 @@ const App: React.FC = () => {
         <Route path='/patient/appointments' element={<GetAppointments />} />
         <Route path='/patient/book-appointment' element={<BookAppointment />} />
         <Route path='/patient/doctor-selection' element={<DoctorSelection />} />
+        <Route path='/patient/choose-appointment' element={<ChooseAppointment />} />
+        <Route path='/patient/get-history' element= {<GetHistory />} />
+        <Route path='/patient/update-profile' element={<UpdateDetails />} />
 
         <Route path='admin/dashboard' element={<AdminDashboard />} />
 
