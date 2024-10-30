@@ -30,7 +30,7 @@ router.put('/patients/:patientId', updatePatient); // Added patientId to the URL
 router.delete('/patients/:patientId', deletePatient);
 
 // Search patients by name
-router.get('/patients/search', searchPatientsByName);
+router.get('/patients/search', searchPatientsByName as any);
 
 // Get patients by age range
 router.get('/patients/age', getPatientsByAgeRange);

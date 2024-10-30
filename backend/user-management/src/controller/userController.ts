@@ -1,6 +1,35 @@
-import User from "../entity/user";
+import User, {User as UserType} from "../entity/user";
 import { Request,Response } from "express";
 const bcrypt = require('bcrypt');
+
+import jwt, {JwtPayload} from 'jsonwebtoken';
+
+interface TokenPayload extends JwtPayload {
+    userId: string;
+    role: string;
+}
+
+// Generate JWT Token
+function generateToken(user: UserType): string {
+    return jwt.sign(
+        { userId: user._id, role: user.role },
+        process.env.JWT_SECRET as string,
+        { expiresIn: '1h' }
+    );
+}
+
+export const login = async (req: Request, res: Response): Promise<Response> => {
+    const { username, password } = req.body;
+
+    const user = await User.findOne({ username });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    const token = generateToken(user);
+    return res.json({ token });
+};
+
 
 async function hashPassword(plainTextPassword: string): Promise<string> {
     const saltRounds = 10; // Higher number = more secure but slower

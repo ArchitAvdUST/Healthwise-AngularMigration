@@ -44,3 +44,13 @@ export const deleteAdmin = async (req: Request, res: Response) => {
     res.status(500).send(error);
   }
 };
+
+export const getAdmin = async(req:Request, res:Response) => {
+  try{
+    const admins = await Admin.find();
+    res.status(200).json(admins);
+  }
+  catch(error) {
+    res.status(500).send();
+  }
+}
