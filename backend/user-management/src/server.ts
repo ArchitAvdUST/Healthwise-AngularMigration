@@ -5,7 +5,7 @@ import userRoutes from "./routes/userRoutes";
 const app = express();
 app.use(express.json());
 
-const port = 5003;
+const port = 5010;
 
 connectDb();
 
