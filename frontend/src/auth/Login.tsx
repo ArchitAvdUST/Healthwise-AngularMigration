@@ -21,16 +21,27 @@ const Login: React.FC = () => {
 
     try {
       // Send login request to backend
-      const response = await axios.post('/api/login', {
-        username,
-        password,
-      });
+      // Send login request to backend using GET
+const response = await axios.post(`http://localhost:5000/api/users/login`, {
+    username,
+    password
+});
 
-      // Check if login is successful
-      if (response.status === 200 && response.data.success) {
-        // Fetch user role after successful login
-        const roleResponse = await axios.get(`/api/users/${username}/role`);
-        const userRole = roleResponse.data.role;
+
+if (response.status === 200 && response.data.token) {
+  // Extract the JWT token from the response
+  const token = response.data.token;
+
+  // Fetch user role after successful login, using the token in the Authorization header
+  const roleResponse = await axios.get(`http://localhost:5000/api/users/${username}/role`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  // Get the user role from the response
+  const userRole = roleResponse.data;
+  console.log(userRole);
 
         // Route based on role
         if (userRole === 'patient') {
