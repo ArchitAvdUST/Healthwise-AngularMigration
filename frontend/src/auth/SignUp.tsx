@@ -36,8 +36,8 @@ const SignUp: React.FC = () => {
 
   const checkUsernameExists = async () => {
     try {
-      const response = await axios.get(`/api/users?username=${username}`);
-      return response.data.exists; // Assuming the API returns a boolean
+      const response = await axios.get(`http://localhost:5000/api/users/${username}`);
+      return response.data; // Assuming the API returns a boolean
     } catch (error) {
       console.error('Error checking username', error);
       return false;
@@ -72,7 +72,7 @@ const SignUp: React.FC = () => {
 
     // Save data through POST endpoint
     try {
-      await axios.post('/api/users', {
+      await axios.post('http://localhost:5000/api/users', {
         username,
         password,
         role,

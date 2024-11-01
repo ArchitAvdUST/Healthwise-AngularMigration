@@ -73,18 +73,22 @@ export const createUser = async (req: Request, res: Response) => {
     }
 };
 
-export const getUser = async (username: string): Promise<{ user?: any; error?: string }> => {
-    try {
-        const user = await User.findOne( {username} );
-        if (user) {
-            return { user };
-        } else {
-            return { error: "User not found" };
+export const getUser = async (req: Request, res: Response) => {
+    try{
+        const {username} = req.params;
+        const user = await User.findOne({username: username});
+        if(user){
+            res.status(404).json({message:"Username already present"});
         }
-    } catch (error) {
-        return { error: "Error while fetching user" };
+        else
+        {
+            res.status(200).json(user);
+        }
     }
-};
+    catch(error){
+        res.status(500).json({message:"Error",error});
+    }
+}
 
 export const getAllUsers = async (req: Request,res:Response) => {
     try{

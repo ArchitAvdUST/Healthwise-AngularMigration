@@ -6,7 +6,7 @@ export interface Patient extends Document {
   age: number;
   email: string;
   phone: string;
-  adharNumber: number;
+  //adharNumber: number;
   medicalHistory: string; 
   username: string;
 }
@@ -17,7 +17,7 @@ const PatientSchema: Schema = new Schema({
   age: { type: Number, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
-  adharNumber: { type: Number, required: true},
+  //adharNumber: { type: Number},
   medicalHistory: { type: String},
   username: {type: String, required: true, unique:true}
 });

@@ -21,7 +21,7 @@ const AdditionalInfo: React.FC = () => {
 
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
-  const [gender, setGender] = useState('male'); // Default gender
+  const [sex, setsex] = useState('male'); // Default sex
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
@@ -62,10 +62,10 @@ const AdditionalInfo: React.FC = () => {
 
     // Save data through POST endpoint
     try {
-      await axios.post('/api/patients', {
+      await axios.post('http://localhost:5000/api/patients', {
         name,
         age,
-        gender,
+        sex,
         email,
         phone,
         address,
@@ -109,11 +109,11 @@ const AdditionalInfo: React.FC = () => {
             onChange={(e) => setAge(e.target.value)}
           />
           <FormControl fullWidth margin="normal">
-            <InputLabel id="gender-label">Gender</InputLabel>
+            <InputLabel id="sex-label">sex</InputLabel>
             <Select
-              labelId="gender-label"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
+              labelId="sex-label"
+              value={sex}
+              onChange={(e) => setsex(e.target.value)}
             >
               <MenuItem value="male">Male</MenuItem>
               <MenuItem value="female">Female</MenuItem>
