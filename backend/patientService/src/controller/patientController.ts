@@ -25,13 +25,14 @@ export const getAllPatients = async (req: Request, res: Response) => {
 // Get a single Patient by ID
 export const getAPatient = async (req: Request, res: Response) => {
   try {
-    const { patientId } = req.params;
-    const patient = await Patient.findById(patientId);
+    const { username } = req.params;
+    const patient = await Patient.findOne({username: username});
     if (!patient) {
       res.status(404).json({ message: "Patient not found" });
     }
     res.status(200).json(patient);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: "Error fetching the patient", error: error });
   }
 };
@@ -39,8 +40,8 @@ export const getAPatient = async (req: Request, res: Response) => {
 // Update a Patient
 export const updatePatient = async (req: Request, res: Response) => {
   try {
-    const { patientId } = req.params;
-    const updatedPatient = await Patient.findByIdAndUpdate(patientId, req.body, { new: true, runValidators: true });
+    const { username } = req.params;
+    const updatedPatient = await Patient.findOneAndUpdate({username: username}, req.body, { new: true, runValidators: true });
     if (!updatedPatient) {
        res.status(404).json({ message: "Patient not found" });
     }
@@ -53,8 +54,8 @@ export const updatePatient = async (req: Request, res: Response) => {
 // Delete a Patient
 export const deletePatient = async (req: Request, res: Response) => {
   try {
-    const { patientId } = req.params;
-    const result = await Patient.findByIdAndDelete(patientId);
+    const { username } = req.params;
+    const result = await Patient.findOneAndDelete({username: username});
     if (!result) {
        res.status(404).json({ message: "Patient not found" });
     }
@@ -118,9 +119,9 @@ export const getPatientsBySex = async (req: Request, res: Response) => {
 
 // Get Medical History for a Patient
 export const getMedicalHistory = async (req: Request, res: Response) => {
-  const { patientId } = req.params;
+  const { username } = req.params;
   try {
-    const patient = await Patient.findById(patientId);
+    const patient = await Patient.findOne({username: username});
     if (!patient) {
        res.status(404).json({ message: "Patient not found" });
     }

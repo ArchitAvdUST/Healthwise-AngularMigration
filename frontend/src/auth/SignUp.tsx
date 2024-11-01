@@ -17,9 +17,10 @@ const SignUp: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role,setRole] = useState('patient'); // Default role
+  const [role, setRole] = useState('patient'); // Default role
   const [error, setError] = useState('');
   const [passwordMismatch, setPasswordMismatch] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -31,13 +32,26 @@ const SignUp: React.FC = () => {
       setError('Passwords do not match.');
       return false;
     }
+    if (!validatePassword(password)) {
+      return false;
+    }
+    return true;
+  };
+
+  const validatePassword = (password: string) => {
+    const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // At least 8 characters, one uppercase, one lowercase, one number, and one special character
+    if (!passwordRequirements.test(password)) {
+      setPasswordError('Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.');
+      return false;
+    }
+    setPasswordError('');
     return true;
   };
 
   const checkUsernameExists = async () => {
     try {
-      const response = await axios.get(`/api/users?username=${username}`);
-      return response.data.exists; // Assuming the API returns a boolean
+      const response = await axios.get(`http://localhost:5000/api/users/${username}`);
+      return response.data; // Assuming the API returns a boolean
     } catch (error) {
       console.error('Error checking username', error);
       return false;
@@ -72,7 +86,7 @@ const SignUp: React.FC = () => {
 
     // Save data through POST endpoint
     try {
-      await axios.post('/api/users', {
+      await axios.post('http://localhost:5000/api/users', {
         username,
         password,
         role,
@@ -109,6 +123,8 @@ const SignUp: React.FC = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            error={!!passwordError} // Highlight if there's an error
+            helperText={passwordError} // Show the password requirements message
           />
           <TextField
             margin="normal"
@@ -122,8 +138,7 @@ const SignUp: React.FC = () => {
             helperText={passwordMismatch ? 'Passwords do not match.' : ''}
           />
           <FormControl fullWidth margin="normal">
-            {/*<InputLabel id="role-label">Role</InputLabel>*/}
-            <Select disabled
+            <Select
               labelId="role-label"
               value={role}
               onChange={(e) => setRole(e.target.value)}
@@ -140,7 +155,7 @@ const SignUp: React.FC = () => {
             variant="contained"
             color="primary"
             sx={{ mt: 3, mb: 2 }}
-            disabled={passwordMismatch} // Disable the button if passwords do not match
+            disabled={passwordMismatch || !!passwordError} // Disable the button if passwords do not match or there are password errors
           >
             Sign Up
           </Button>

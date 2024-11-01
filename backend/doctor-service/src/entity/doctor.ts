@@ -7,6 +7,8 @@ export interface Doctor extends Document {
   email: string;
   phone: string;
   specialization: string; 
+  diseasesTreated: string[];
+  username: string;
 }
 
 const DoctorSchema: Schema = new Schema({
@@ -16,6 +18,8 @@ const DoctorSchema: Schema = new Schema({
   specialization: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
+  diseasesTreated: { type: [String], required: true },
+  username: {type: String,required: true, unique: true},
 });
 
 const Doctor = mongoose.model<Doctor>('doctor', DoctorSchema);

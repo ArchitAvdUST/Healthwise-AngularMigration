@@ -21,13 +21,13 @@ router.post('/patients', createPatient);
 router.get('/patients', getAllPatients);
 
 // Get a specific patient by ID
-router.get('/patients/:patientId', getAPatient);
+router.get('/patients/:username', getAPatient);
 
 // Update a patient
-router.put('/patients/:patientId', updatePatient); // Added patientId to the URL for specific updates
+router.put('/patients/:username', updatePatient); // Added patientId to the URL for specific updates
 
 // Delete a specific patient by ID
-router.delete('/patients/:patientId', deletePatient);
+router.delete('/patients/:username', deletePatient);
 
 // Search patients by name
 router.get('/patients/search', searchPatientsByName as any);
@@ -42,6 +42,6 @@ router.get('/patients/count', getPatientCount);
 router.get('/patients/sex/:sex', getPatientsBySex);
 
 // Get medical history for a specific patient
-router.get('/patients/:patientId/medical-history', getMedicalHistory);
+router.get('/patients/:username/medical-history', getMedicalHistory);
 
 export default router;

@@ -31,12 +31,13 @@ function generateToken(user: UserType): string {
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
     const { username, password } = req.body;
+    console.log("Passed checkpoint 1");
 
     try {
         // Retrieve user directly in the login function
         const user = await User.findOne({ username });
         
-        
+        console.log("Passed checkpoint 2");
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -45,7 +46,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
-
+        console.log("Passed checkpoint 3");
         // Generate JWT token
         const token = generateToken(user);
         return res.json({ token });
@@ -73,18 +74,22 @@ export const createUser = async (req: Request, res: Response) => {
     }
 };
 
-export const getUser = async (username: string): Promise<{ user?: any; error?: string }> => {
-    try {
-        const user = await User.findOne( {username} );
-        if (user) {
-            return { user };
-        } else {
-            return { error: "User not found" };
+export const getUser = async (req: Request, res: Response) => {
+    try{
+        const {username} = req.params;
+        const user = await User.findOne({username: username});
+        if(user){
+            res.status(404).json({message:"Username already present"});
         }
-    } catch (error) {
-        return { error: "Error while fetching user" };
+        else
+        {
+            res.status(200).json(user);
+        }
     }
-};
+    catch(error){
+        res.status(500).json({message:"Error",error});
+    }
+}
 
 export const getAllUsers = async (req: Request,res:Response) => {
     try{
@@ -112,3 +117,17 @@ export const getRoleByUsername = async (req: Request, res: Response) => {
         res.status(500).json({message:"Error while fetching user",error});
     }
 };
+
+export const deleteUser = async(req: Request, res: Response) => {
+    try{
+        const {username} = req.params;
+        const result = await User.findOneAndDelete({username: username});
+        if (!result) {
+            res.status(404).json({ message: "User not found" });
+         }
+         res.status(200).json({ message: "User deleted successfully", user: result });
+       } catch (error) {
+         res.status(400).json({ message: "Error deleting the patient", error});
+       }
+
+    };

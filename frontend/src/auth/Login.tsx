@@ -42,14 +42,15 @@ if (response.status === 200 && response.data.token) {
   // Get the user role from the response
   const userRole = roleResponse.data;
   console.log(userRole);
+  sessionStorage.setItem('token', token);
 
         // Route based on role
         if (userRole === 'patient') {
-          navigate('/patient-dashboard');
+          navigate('/patient/dashboard');
         } else if (userRole === 'doctor') {
-          navigate('/doctor-dashboard');
+          navigate('/doctor/dashboard');
         } else if (userRole === 'admin') {
-          navigate('/admin-dashboard');
+          navigate('/admin/dashboard');
         } else {
           setError('Unrecognized role.');
         }
