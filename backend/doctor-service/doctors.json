@@ -1,0 +1,103 @@
+[
+    {
+      "name": "Dr. Sarah Collins",
+      "sex": "Female",
+      "age": 42,
+      "email": "sarah.collins@example.com",
+      "phone": "555-0134",
+      "specialization": "Pediatrics",
+      "username": "dr.sarah.collins",
+      "description": "With over 15 years of experience, Dr. Collins has managed cases in neonatal care and developmental assessments for children. She has extensive experience working with childhood immunizations and preventive care."
+    },
+    {
+      "name": "Dr. Benjamin Tran",
+      "sex": "Male",
+      "age": 38,
+      "email": "benjamin.tran@example.com",
+      "phone": "555-0125",
+      "specialization": "Pediatrics",
+      "username": "dr.benjamin.tran",
+      "description": "Dr. Tran has 12 years of experience focusing on child nutrition and behavioral health. His approach combines family-centered practices with preventive care for young children."
+    },
+    {
+      "name": "Dr. Lisa Rodriguez",
+      "sex": "Female",
+      "age": 46,
+      "email": "lisa.rodriguez@example.com",
+      "phone": "555-0146",
+      "specialization": "Pediatrics",
+      "username": "dr.lisa.rodriguez",
+      "description": "Known for her expertise in managing respiratory issues in children, Dr. Rodriguez has over 18 years of experience. She has also led several child health initiatives in local communities."
+    },
+    {
+      "name": "Dr. Raj Patel",
+      "sex": "Male",
+      "age": 40,
+      "email": "raj.patel@example.com",
+      "phone": "555-0152",
+      "specialization": "Pediatrics",
+      "username": "dr.raj.patel",
+      "description": "Dr. Patel specializes in treating infectious diseases in children. With 14 years in the field, he is skilled in handling complex cases involving immunodeficiency disorders."
+    },
+    {
+      "name": "Dr. Emily Zhao",
+      "sex": "Female",
+      "age": 35,
+      "email": "emily.zhao@example.com",
+      "phone": "555-0163",
+      "specialization": "Pediatrics",
+      "username": "dr.emily.zhao",
+      "description": "A compassionate pediatrician with 10 years of experience, Dr. Zhao focuses on child development milestones and cognitive health. She is known for her gentle approach with young patients."
+    },
+    {
+      "name": "Dr. Michael Chen",
+      "sex": "Male",
+      "age": 50,
+      "email": "michael.chen@example.com",
+      "phone": "555-0174",
+      "specialization": "Pediatrics",
+      "username": "dr.michael.chen",
+      "description": "With over 25 years of experience, Dr. Chen has vast knowledge in pediatric emergency care and is highly skilled in handling acute and chronic illnesses in children."
+    },
+    {
+      "name": "Dr. Priya Nair",
+      "sex": "Female",
+      "age": 39,
+      "email": "priya.nair@example.com",
+      "phone": "555-0185",
+      "specialization": "Pediatrics",
+      "username": "dr.priya.nair",
+      "description": "Dr. Nair has 13 years of experience focusing on adolescent health and mental well-being. She advocates for preventive care and lifestyle changes to promote long-term health in children."
+    },
+    {
+      "name": "Dr. John Kim",
+      "sex": "Male",
+      "age": 45,
+      "email": "john.kim@example.com",
+      "phone": "555-0196",
+      "specialization": "Pediatrics",
+      "username": "dr.john.kim",
+      "description": "An expert in pediatric dermatology, Dr. Kim has 17 years of experience treating common skin conditions in children. His calm and patient demeanor makes him popular among young patients."
+    },
+    {
+      "name": "Dr. Aisha Malik",
+      "sex": "Female",
+      "age": 36,
+      "email": "aisha.malik@example.com",
+      "phone": "555-0210",
+      "specialization": "Pediatrics",
+      "username": "dr.aisha.malik",
+      "description": "Dr. Malik has a decade of experience specializing in nutrition and preventive care. She’s known for her interactive educational sessions with families on healthy eating habits for kids."
+    },
+    {
+      "name": "Dr. Kevin Gomez",
+      "sex": "Male",
+      "age": 48,
+      "email": "kevin.gomez@example.com",
+      "phone": "555-0221",
+      "specialization": "Pediatrics",
+      "username": "dr.kevin.gomez",
+      "description": "Dr. Gomez brings 20 years of experience in pediatric cardiology. He has a strong track record of managing congenital heart conditions and is highly regarded for his precise diagnostic skills."
+    }
+  ]
+  

@@ -64,23 +64,23 @@ export const deleteDoctor = async(req: Request,res:Response) => {
     }
 };
 
-export const getDoctorsByDisease = async (req: Request, res: Response) => {
-    try {
-      const { symptom } = req.params; // Retrieve the disease from the request parameters
+// export const getDoctorsByDisease = async (req: Request, res: Response) => {
+//     try {
+//       const { symptom } = req.params; // Retrieve the disease from the request parameters
   
-      // Query to find doctors who treat the specified disease
-      const doctors = await Doctor.find({ diseasesTreated: symptom }, 'username'); // Select only the 'name' field
+//       // Query to find doctors who treat the specified disease
+//       const doctors = await Doctor.find({ diseasesTreated: symptom }, 'username'); // Select only the 'name' field
   
-      // Check if any doctors were found
-      if (!doctors.length) {
-        return res.status(404).json({ message: 'No doctors found for this disease.' });
-      }
+//       // Check if any doctors were found
+//       if (!doctors.length) {
+//         return res.status(404).json({ message: 'No doctors found for this disease.' });
+//       }
   
-      // Send back the names of the doctors
-      const doctorUsernames = doctors.map((doctor) => doctor.username);
-      return res.status(200).json({ doctors: doctorUsernames });
+//       // Send back the names of the doctors
+//       const doctorUsernames = doctors.map((doctor) => doctor.username);
+//       return res.status(200).json({ doctors: doctorUsernames });
   
-    } catch (error) {
-      return res.status(500).json({ message: 'An error occurred.', error });
-    }
-  };
+//     } catch (error) {
+//       return res.status(500).json({ message: 'An error occurred.', error });
+//     }
+//   };

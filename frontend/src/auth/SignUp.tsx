@@ -144,8 +144,8 @@ const SignUp: React.FC = () => {
               onChange={(e) => setRole(e.target.value)}
             >
               <MenuItem value="patient">Patient</MenuItem>
-              <MenuItem value="doctor">Doctor</MenuItem>
-              <MenuItem value="admin">Admin</MenuItem>
+              <MenuItem value="doctor" disabled>Doctor</MenuItem>
+              <MenuItem value="admin" disabled>Admin</MenuItem>
               {/* Add more roles as needed */}
             </Select>
           </FormControl>
