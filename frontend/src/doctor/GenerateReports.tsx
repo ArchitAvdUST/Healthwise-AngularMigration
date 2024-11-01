@@ -12,8 +12,10 @@ import {
   Paper,
   CircularProgress,
   Alert,
+  Grid,
 } from '@mui/material';
 import axios from 'axios';
+import Navbar from './components/DoctorNavbar'; // Import Navbar
 
 const GenerateReports: React.FC = () => {
   const [reportData, setReportData] = useState<any[]>([]); // Adjust the type as needed
@@ -36,58 +38,64 @@ const GenerateReports: React.FC = () => {
   };
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Generate Reports
-      </Typography>
-      <Button
-        variant="contained"
-        onClick={handleGenerateReport}
-        disabled={loading}
-        sx={{
-          mb: 2,
-          '&:hover': {
-            backgroundColor: '#1976d2', // Darker blue on hover
-          },
-        }}
-      >
-        {loading ? <CircularProgress size={24} /> : 'Generate Report'}
-      </Button>
+    <>
+      <Navbar /> 
+      <Container sx={{ paddingY: 4 }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Generate Reports
+        </Typography>
+        <Grid container justifyContent="center" sx={{ mb: 3 }}>
+          <Button
+            variant="contained"
+            onClick={handleGenerateReport}
+            disabled={loading}
+            sx={{
+              backgroundColor: '#1976d2',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: '#155a8a', // Darker blue on hover
+              },
+            }}
+          >
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Generate Report'}
+          </Button>
+        </Grid>
 
-      {error && <Alert severity="error">{error}</Alert>}
+        {error && <Alert severity="error">{error}</Alert>}
 
-      {reportData.length > 0 && (
-        <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Field 1</TableCell>
-                <TableCell>Field 2</TableCell>
-                <TableCell>Field 3</TableCell>
-                {/* Add more fields as necessary */}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {reportData.map((report, index) => (
-                <TableRow
-                  key={index}
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: '#f5f5f5', // Light grey on hover
-                    },
-                  }}
-                >
-                  <TableCell>{report.field1}</TableCell>
-                  <TableCell>{report.field2}</TableCell>
-                  <TableCell>{report.field3}</TableCell>
-                  {/* Add more cells as necessary */}
+        {reportData.length > 0 && (
+          <TableContainer component={Paper} sx={{ marginTop: 2, boxShadow: 3 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: 'bold' }}>Field 1</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>Field 2</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>Field 3</TableCell>
+                  {/* Add more fields as necessary */}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
-    </Container>
+              </TableHead>
+              <TableBody>
+                {reportData.map((report, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{
+                      '&:hover': {
+                        backgroundColor: '#f5f5f5', // Light grey on hover
+                      },
+                    }}
+                  >
+                    <TableCell>{report.field1}</TableCell>
+                    <TableCell>{report.field2}</TableCell>
+                    <TableCell>{report.field3}</TableCell>
+                    {/* Add more cells as necessary */}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </Container>
+    </>
   );
 };
 

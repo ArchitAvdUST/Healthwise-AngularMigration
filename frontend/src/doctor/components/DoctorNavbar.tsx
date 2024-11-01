@@ -40,7 +40,7 @@ const DoctorNavbar: React.FC = () => {
 
   const handleManagePatients = (event: React.MouseEvent<HTMLElement>) => {
     handleClose();
-    navigate('/doctor/manage-patients');
+    navigate('/doctor/manage-appointments');
   };
 
   const handleViewAppointments = (event: React.MouseEvent<HTMLElement>) => {
@@ -70,7 +70,7 @@ const DoctorNavbar: React.FC = () => {
         </Typography>
 
         {/* Right side: Home button */}
-        <Button color="inherit" onClick={() => navigate('/doctor-dashboard')}>
+        <Button color="inherit" onClick={() => navigate('/doctor/dashboard')}>
           Home
         </Button>
 
@@ -99,7 +99,7 @@ const DoctorNavbar: React.FC = () => {
             horizontal: 'center',
           }}
         >
-          <MenuItem onClick={handleManagePatients}>Manage Patients</MenuItem>
+          <MenuItem onClick={handleManagePatients}>Manage Appointments</MenuItem>
           <MenuItem onClick={handleViewAppointments}>View Appointments</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>

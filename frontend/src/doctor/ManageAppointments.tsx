@@ -12,12 +12,14 @@ import {
   Paper,
 } from '@mui/material';
 import axios from 'axios';
+import Navbar from './components/DoctorNavbar'; // Import Navbar
 
 const ManageAppointments: React.FC = () => {
   const [appointments, setAppointments] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Uncomment and update the following useEffect to fetch data from your API
   /* useEffect(() => {
     const fetchAppointments = async () => {
       setLoading(true);
@@ -50,39 +52,44 @@ const ManageAppointments: React.FC = () => {
   }; */
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>Manage Appointments</Typography>
+    <>
+      <Navbar /> 
+      <Container sx={{ paddingTop: 4, textAlign: 'center' }}>
+        <Typography variant="h4" gutterBottom>Manage Appointments</Typography>
 
-      {loading && <Typography>Loading appointments...</Typography>}
-      {error && <Typography color="error">{error}</Typography>}
+        {loading && <Typography>Loading appointments...</Typography>}
+        {error && <Typography color="error">{error}</Typography>}
 
-      <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Patient Name</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {appointments.map((appointment) => (
-              <TableRow key={appointment.id}>
-                <TableCell>{appointment.date}</TableCell>
-                <TableCell>{appointment.patientName}</TableCell>
-                <TableCell>{appointment.status}</TableCell>
-                <TableCell>
-                  {appointment.status !== 'completed' && (
-                    <Button /*onClick={() => handleMarkAsCompleted(appointment.id)} */>Mark as Completed</Button>
-                  )}
-                </TableCell>
+        <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Date</TableCell>
+                <TableCell>Patient Name</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Container>
+            </TableHead>
+            <TableBody>
+              {appointments.map((appointment) => (
+                <TableRow key={appointment.id}>
+                  <TableCell>{appointment.date}</TableCell>
+                  <TableCell>{appointment.patientName}</TableCell>
+                  <TableCell>{appointment.status}</TableCell>
+                  <TableCell>
+                    {appointment.status !== 'completed' && (
+                      <Button /* onClick={() => handleMarkAsCompleted(appointment.id)} */>
+                        Mark as Completed
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
+    </>
   );
 };
 

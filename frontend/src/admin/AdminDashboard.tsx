@@ -1,53 +1,51 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Box, Button, Typography, Container, CircularProgress, Alert, Stack } from '@mui/material';
-import AdminNavbar from './components/AdminNavBar'; // Assume you have an AdminNavbar component
+import {
+  Box,
+  Button,
+  Typography,
+  Container,
+  CircularProgress,
+  Alert,
+  Stack,
+  Grid,
+} from '@mui/material';
+import AdminNavbar from './components/AdminNavBar';
 
 const AdminDashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // State to manage doctor information
   const [doctors, setDoctors] = useState<any[]>([]);
+  const [patientsCount, setPatientsCount] = useState(0);
+  const [revenue, setRevenue] = useState(0);
+  const [reviews, setReviews] = useState<any[]>([]);
 
-  // Fetch doctors data from the API
-  /* useEffect(() => {
-    const fetchDoctors = async () => {
+  /*
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/doctors'); // Adjust to your API endpoint
-        setDoctors(response.data);
+        const [doctorsResponse, patientsResponse, revenueResponse, reviewsResponse] = await Promise.all([
+          axios.get('/api/doctors'),
+          axios.get('/api/patients'),
+          axios.get('/api/revenue'),
+          axios.get('/api/reviews'),
+        ]);
+        setDoctors(doctorsResponse.data);
+        setPatientsCount(patientsResponse.data.count);
+        setRevenue(revenueResponse.data.total);
+        setReviews(reviewsResponse.data);
       } catch (err) {
-        setError('Failed to load doctors information');
+        setError('Failed to load data');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchDoctors();
+    fetchData();
   }, []);
-
-  // Handle adding a new doctor
-  const handleAddDoctor = async () => {
-    // Implement the logic to add a doctor
-    console.log('Adding a new doctor...');
-  };
-
-  // Handle deleting a doctor
-  const handleDeleteDoctor = async (doctorId: string) => {
-    try {
-      await axios.delete(`/api/doctors/${doctorId}`); // Adjust to your API endpoint
-      setDoctors(doctors.filter(doctor => doctor.id !== doctorId));
-    } catch (error) {
-      console.error('Failed to delete doctor:', error);
-    }
-  };
-
-  // Handle generating a bill
-  const handleGenerateBill = () => {
-    // Implement the logic to generate a bill
-    console.log('Generating bill...');
-  };
 
   if (loading) {
     return <CircularProgress />;
@@ -56,53 +54,87 @@ const AdminDashboard: React.FC = () => {
   if (error) {
     return <Alert severity="error">{error}</Alert>;
   }
-   */
+    */
   return (
     <div>
-      {/* Navbar */}
       <AdminNavbar />
 
-      {/* Container with options */}
-      <Container>
+      <Container
+        maxWidth="md"
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 'calc(100vh - 64px)', // Adjust based on the height of your navbar
+        }}
+      >
         <Box
           display="flex"
           flexDirection="column"
           bgcolor="#f5f5f5"
           borderRadius="8px"
-          boxShadow="0 4px 12px rgba(0, 0, 0, 0.1)"
+          boxShadow="0 8px 24px rgba(0, 0, 0, 0.5)"
           p={4}
-          mt={4}
           width="100%"
-          maxWidth="800px"
-          mx="auto"
         >
-          {/* Title */}
           <Typography variant="h4" color="primary" textAlign="center" mb={2}>
             Admin Dashboard
           </Typography>
 
-          {/* List of doctors */}
-          <Typography variant="h6" color="primary" mb={2}>
-            Doctors:
-          </Typography>
-          <Box mb={2}>
-            {doctors.map((doctor) => (
-              <Box key={doctor.id} display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                <Typography>{doctor.name}</Typography>
-                <Button variant="outlined" color="secondary" /*onClick={() => handleDeleteDoctor(doctor.id)}*/>
-                  Delete
-                </Button>
-              </Box>
-            ))}
-          </Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h6" color="primary" mb={1}>
+                Total Doctors: {doctors.length}
+              </Typography>
+              <Typography variant="h6" color="primary" mb={1}>
+                Total Patients: {patientsCount}
+              </Typography>
+              <Typography variant="h6" color="primary" mb={1}>
+                Total Revenue: ${revenue.toFixed(2)}
+              </Typography>
+            </Grid>
+          </Grid>
 
-          {/* Action Buttons */}
-          <Stack spacing={2} width="100%">
-            <Button variant="contained" color="primary" /* onClick={handleAddDoctor} */>
+          <Stack spacing={3} direction="row" justifyContent="center" mt={3}>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={() => navigate('/admin/add-doctors')}
+              sx={{
+                '&:hover': { backgroundColor: '#003366' }
+              }}
+            >
               Add Doctor
             </Button>
-            <Button variant="contained" color="primary" /* onClick={handleGenerateBill} */>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={() => navigate('/admin/delete-doctors')}
+              sx={{
+                '&:hover': { backgroundColor: '#003366' }
+              }}
+            >
+              Delete Doctor
+            </Button>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={() => navigate('/admin/generate-bills')}
+              sx={{
+                '&:hover': { backgroundColor: '#003366' }
+              }}
+            >
               Generate Bill
+            </Button>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={() => navigate('/admin/view-reviews')}
+              sx={{
+                '&:hover': { backgroundColor: '#003366' }
+              }}
+            >
+              View Reviews
             </Button>
           </Stack>
         </Box>

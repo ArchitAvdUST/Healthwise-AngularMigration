@@ -9,8 +9,10 @@ import PatientDashboard from './patient/PatientDashboard';
 
 //adminEndpoints
 import AdminDashboard from './admin/AdminDashboard';
-import ManageDoctors  from './admin/ManageDoctrs';
+import AddDoctors  from './admin/AddDoctor';
+import ViewReviews from './admin/ViewReviews'
 import GenerateBills from './admin/GenerateBill';
+import  DeleteDoctors from './admin/DeleteDoctors';
 //doctorEndpoints
 import DoctorDashboard from './doctor/DoctorDashboard';
 import GenerateReports from './doctor/GenerateReports';
@@ -45,7 +47,9 @@ const App: React.FC = () => {
           <Route path='/patient/update-profile' element={<UpdateDetails />} />
 
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
-          <Route path="/admin/manage-doctors" element={<ManageDoctors />} />
+          <Route path="/admin/add-doctors" element={<AddDoctors />} />
+          <Route path="/admin/delete-doctors" element={<DeleteDoctors/>} />
+          <Route path="/admin/view-reviews" element ={<ViewReviews/>} />
           <Route path="/admin/generate-bills" element={<GenerateBills />} />
 
           <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
