@@ -2,22 +2,35 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Button, Typography, Container, CircularProgress, Alert, Stack } from '@mui/material';
 import Navbar from './components/PatientNavbar';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const PatientDashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [patientName, setPatientName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
- {/* useEffect(() => {
+  useEffect(() => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
         const token = sessionStorage.getItem('token');
-        const response = await axios.get('/api/patient/', {
+        if(token){
+        const decodedToken: { username: string } = jwtDecode(token);
+        const username = decodedToken.username;
+        const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPatientName(response.data.name);
+      }
+      else{
+        throw new Error("Token not found in session storage");
+      }
       } catch (err) {
+        console.log(err);
         setError('Failed to load patient information');
       } finally {
         setLoading(false);
@@ -34,7 +47,22 @@ const PatientDashboard: React.FC = () => {
   if (error) {
     return <Alert severity="error">{error}</Alert>;
   }
-    */}
+
+  function handleGetAppointmentClick(): void {
+    navigate('/patient/appointments');
+  }
+
+  function handleBookAppointmentClick(): void {
+    navigate('/patient/book-appointment');
+  }
+
+  function handleGetMedicalHistory(): void {
+    navigate('/patient/get-history');
+  }
+
+  function handleViewBills(): void {
+    navigate('/page-not-found');
+  }
 
   return (
     <div>
@@ -65,16 +93,16 @@ const PatientDashboard: React.FC = () => {
           {/* Right Half: Buttons */}
           <Box flex={1} display="flex" alignItems="center" justifyContent="center">
             <Stack spacing={2} width="100%" maxWidth="200px">
-              <Button variant="contained" color="primary" fullWidth>
+              <Button variant="contained" color="primary" onClick={handleGetAppointmentClick}fullWidth>
                 Get Appointments
               </Button>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button variant="contained" color="primary" onClick={handleBookAppointmentClick}fullWidth>
                 Book Appointment
               </Button>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button variant="contained" color="primary" onClick={handleGetMedicalHistory}fullWidth>
                 Get Medical History
               </Button>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button variant="contained" color="primary" onClick={handleViewBills}fullWidth>
                 View Bills
               </Button>
             </Stack>

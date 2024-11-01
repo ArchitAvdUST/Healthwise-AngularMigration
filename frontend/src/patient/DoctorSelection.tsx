@@ -5,9 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from './components/PatientNavbar';
 
 interface Doctor {
-  id: string;
-  name: string;
-  specialization: string;
+  username: string;
 }
 
 const DoctorSelection: React.FC = () => {
@@ -18,10 +16,10 @@ const DoctorSelection: React.FC = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       const token = sessionStorage.getItem('token');
-      const selectedSymptom = sessionStorage.getItem('selectedSymptom');
+      const selectedSymptom = sessionStorage.getItem('symptom');
 
       try {
-        const response = await axios.get(`/api/doctors?symptom=${selectedSymptom}`, {
+        const response = await axios.get(`http://localhost:5000/api/doctors/${selectedSymptom}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         
@@ -36,8 +34,8 @@ const DoctorSelection: React.FC = () => {
     fetchDoctors();
   }, []);
 
-  const handleChooseDoctor = (doctorId: string) => {
-    navigate('/choose-appointment', { state: { doctorId } }); // Navigate and pass doctor ID as state
+  const handleChooseDoctor = (doctorUsername: string) => {
+    navigate('/choose-appointment', { state: { doctorUsername } });
   };
 
   if (loading) {
@@ -57,38 +55,43 @@ const DoctorSelection: React.FC = () => {
         <Typography variant="h4" color="primary" gutterBottom textAlign="center" mt={4}>
           Select a Doctor
         </Typography>
-        <Box 
-          display="flex" 
-          flexDirection="row" 
-          flexWrap="wrap" 
-          justifyContent="center" 
-          gap={2} // Adjust spacing between cards
-        >
-          {doctors.map((doctor) => (
-            <Card 
-              variant="outlined" 
-              key={doctor.id} 
-              sx={{ width: 300, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}
-            >
-              <CardContent>
-                <Typography variant="h6" color="primary" gutterBottom>
-                  {doctor.name}
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  Specialization: {doctor.specialization}
-                </Typography>
-              </CardContent>
-              <Button 
-                variant="contained" 
-                color="primary" 
-                onClick={() => handleChooseDoctor(doctor.id)} 
-                sx={{ mb: 2 }}
+        {doctors.length > 0 ? (
+          <Box 
+            display="flex" 
+            flexDirection="row" 
+            flexWrap="wrap" 
+            justifyContent="center" 
+            gap={2}
+          >
+            {doctors.map((doctor) => (
+              <Card 
+                variant="outlined" 
+                key={doctor.username} 
+                sx={{ width: 300, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}
               >
-                Choose Doctor
-              </Button>
-            </Card>
-          ))}
-        </Box>
+                <CardContent>
+                  <Typography variant="h6" color="primary" gutterBottom>
+                    {doctor.username}
+                  </Typography>
+                </CardContent>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  onClick={() => handleChooseDoctor(doctor.username)} 
+                  sx={{ mb: 2 }}
+                >
+                  Choose Doctor
+                </Button>
+              </Card>
+            ))}
+          </Box>
+        ) : (
+          <Box mt={4} textAlign="center">
+            <Typography variant="h6" color="textSecondary">
+              No doctors available for the selected symptom. Please try a different symptom.
+            </Typography>
+          </Box>
+        )}
       </Container>
     </div>
   );

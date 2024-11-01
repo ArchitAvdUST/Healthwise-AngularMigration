@@ -71,12 +71,12 @@ const AdditionalInfo: React.FC = () => {
         address,
         username, // Include username if needed
       });
-      setSuccess('Information submitted successfully!');
+      setSuccess('Information submitted successfully! Please login again');
 
       // Redirect to the Patient Dashboard after successful submission
       setTimeout(() => {
-        navigate('/patient-dashboard'); // Adjust this path to your actual patient dashboard route
-      }, 2000); // Optional delay for user to see the success message
+        navigate('/'); // Adjust this path to your actual patient dashboard route
+      }, 5000); // Optional delay for user to see the success message
     } catch (error) {
       console.error('Error submitting information', error);
       setError('Failed to submit information. Please try again.');

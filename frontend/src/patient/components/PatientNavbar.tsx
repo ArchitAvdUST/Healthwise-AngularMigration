@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowDropDown as ArrowDropDownIcon } from '@mui/icons-material';
 import axios from 'axios';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
+import { jwtDecode } from 'jwt-decode';
 
 const PatientNavbar: React.FC = () => {
   const [patientName, setPatientName] = useState<string>(''); // State to hold patient name
@@ -23,8 +24,16 @@ const PatientNavbar: React.FC = () => {
   useEffect(() => {
     const fetchPatientData = async () => {
       try {
-        const response = await axios.get('/api/patient/'); // Update this to your patient entity API endpoint
-        setPatientName(response.data.name); // Assuming the API returns an object with a 'name' property
+        const token = sessionStorage.getItem('token');
+        if(token){
+        const decodedToken: { username: string } = jwtDecode(token);
+        const username = decodedToken.username;
+        const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+         // Update this to your patient entity API endpoint
+        setPatientName(response.data.name);
+       } // Assuming the API returns an object with a 'name' property
       } catch (error) {
         console.error('Error fetching patient data:', error);
       }

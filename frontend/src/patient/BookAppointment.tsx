@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Box, Container, Typography, FormControl, InputLabel, Select, MenuItem, Button, TextField, SelectChangeEvent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './components/PatientNavbar';
+import { jwtDecode } from 'jwt-decode';
 
 const BookAppointment: React.FC = () => {
   const [selectedSymptom, setSelectedSymptom] = useState('');
@@ -23,15 +24,17 @@ const BookAppointment: React.FC = () => {
   const handleSubmit = async () => {
     try {
       const token = sessionStorage.getItem('token');
+            if (!token) {
+                throw new Error("Token not found in session storage");
+            }
+            const decodedToken: { username: string } = jwtDecode(token);
+            const username = decodedToken.username; // Retrieve username
       const symptomsToUpdate = selectedSymptom === 'Other' ? customSymptom : selectedSymptom;
-
       // Update the patient's symptoms
-      await axios.put('/api/patient/update-symptoms', { symptoms: symptomsToUpdate }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      sessionStorage.setItem('symptom', symptomsToUpdate);
 
       // Redirect to doctor selection page
-      navigate('/select-doctor');
+      navigate('/patient/doctor-selection');
     } catch (error) {
       console.error('Error updating symptoms:', error);
     }

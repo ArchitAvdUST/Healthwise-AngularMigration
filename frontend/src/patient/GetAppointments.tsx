@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Typography, Container, CircularProgress, Alert, Card, CardContent } from '@mui/material';
 import Navbar from './components/PatientNavbar';
+import { jwtDecode } from 'jwt-decode';
 
 interface Appointment {
   date: string;
@@ -15,34 +16,53 @@ const GetAppointment: React.FC = () => {
   const [appointment, setAppointment] = useState<Appointment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-{/*
+
   useEffect(() => {
     const fetchAppointment = async () => {
-      try {
-        setLoading(true);
-        const token = sessionStorage.getItem('token');
-        
-        // Fetch the appointment
-        const response = await axios.get('/api/appointment', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const fetchedAppointment = response.data;
-        
-        // Fetch the doctor's name using the doctorId
-        const doctorResponse = await axios.get(`/api/doctors/${fetchedAppointment.doctorId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        
-        setAppointment({ ...fetchedAppointment, doctorName: doctorResponse.data.name });
-      } catch (err) {
-        setError('Failed to load appointment');
-      } finally {
-        setLoading(false);
-      }
+        try {
+            setLoading(true);
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                throw new Error("Token not found in session storage");
+            }
+            const decodedToken: { username: string } = jwtDecode(token);
+            const username = decodedToken.username;
+
+            // Fetch appointments
+            const response = await axios.get(`http://localhost:5000/api/appointments/patient/username/${username}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (response.status === 404) {
+                console.log('Patient not found');
+                return;
+            }
+
+            const appointmentsArray = response.data; // Assuming this is an array
+            if (appointmentsArray.length === 0) {
+                console.log("No upcoming appointments");
+                return;
+            }
+
+            // Handle the first appointment as an example
+            const firstAppointment = appointmentsArray[0];
+
+            // Fetch the doctor's name using doctorId from the first appointment
+            const doctorResponse = await axios.get(`http://localhost:5000/api/doctors/${firstAppointment.doctorId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            setAppointment({ ...firstAppointment, doctorName: doctorResponse.data.name });
+        } catch (err) {
+            console.log(err);
+            setError('Failed to load appointment');
+        } finally {
+            setLoading(false);
+        }
     };
 
     fetchAppointment();
-  }, []);
+}, []);
+
 
   if (loading) {
     return <CircularProgress />;
@@ -51,7 +71,6 @@ const GetAppointment: React.FC = () => {
   if (error) {
     return <Alert severity="error">{error}</Alert>;
   }
-    */}
 
   return (
     <div>

@@ -5,8 +5,8 @@ import {
   getAllAppointments,
   getAppointmentsByDate,
   getAppointmentsByDoctorAndDate,
-  //getAppointmentsByDoctorUsername,
-  //getAppointmentsByPatientUsername,
+  getAppointmentsByDoctorUsername,
+  getAppointmentsByPatientUsername,
   updateAppointment,
 } from "../controller/appointmentController"; // Adjust the import path as necessary
 
@@ -25,10 +25,10 @@ router.get('/appointments/:date', getAppointmentsByDate);
 router.get('/appointments/doctor/:date', getAppointmentsByDoctorAndDate);
 
 // Retrieve all appointments for a particular doctor by username
-//router.get('/appointments/doctor/username/:username', getAppointmentsByDoctorUsername);
+router.get('/appointments/doctor/username/:username', getAppointmentsByDoctorUsername as any);
 
 // Retrieve all appointments for a particular patient by username
-//router.get('/appointments/patient/username/:username', getAppointmentsByPatientUsername);
+router.get('/appointments/patient/username/:username', getAppointmentsByPatientUsername as any );
 
 // Update an existing appointment
 router.put('/appointments/:appointmentId', updateAppointment as any);

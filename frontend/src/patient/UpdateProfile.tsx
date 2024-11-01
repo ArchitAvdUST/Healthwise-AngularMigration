@@ -2,35 +2,41 @@ import React, { useEffect, useState } from 'react';
 import { Box, TextField, MenuItem, Button, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import PatientNavbar from './components/PatientNavbar'; // Assuming Navbar is in the same directory
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 interface PatientDetails {
   name: string;
   age: number;
-  gender: string;
+  sex: string;
   phone: string;
   email: string;
   address: string;
-  username: string;
 }
 
 const UpdateDetails: React.FC = () => {
   const [details, setDetails] = useState<PatientDetails>({
     name: '',
     age: 0,
-    gender: '',
+    sex: '',
     phone: '',
     email: '',
     address: '',
-    username: '',
   });
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   // Fetch patient details from API and pre-fill form fields
   useEffect(() => {
     const fetchPatientDetails = async () => {
       try {
-        const token = localStorage.getItem('jwtToken'); // Retrieve token
-        const response = await axios.get('/api/patient/details', {
+        const token = sessionStorage.getItem('token');
+            if (!token) {
+                throw new Error("Token not found in session storage");
+            }
+            const decodedToken: { username: string } = jwtDecode(token);
+            const username = decodedToken.username; // Retrieve username
+        const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -57,13 +63,19 @@ const UpdateDetails: React.FC = () => {
   // Handle form submission
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem('jwtToken');
-      await axios.put('/api/patient', details, {
+      const token = sessionStorage.getItem('token');
+            if (!token) {
+                throw new Error("Token not found in session storage");
+            }
+            const decodedToken: { username: string } = jwtDecode(token);
+            const username = decodedToken.username; // Retrieve username
+      await axios.put(`http://localhost:5000/api/patients/${username}`, details, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       alert('Details updated successfully');
+      navigate('/patient/dashboard');
     } catch (error) {
       console.error('Error updating details:', error);
       alert('Failed to update details');
@@ -103,15 +115,15 @@ const UpdateDetails: React.FC = () => {
             <TextField
               select
               label="Gender"
-              name="gender"
-              value={details.gender}
+              name="sex"
+              value={details.sex}
               onChange={handleChange}
               fullWidth
               margin="normal"
             >
-              <MenuItem value="male">Male</MenuItem>
-              <MenuItem value="female">Female</MenuItem>
-              <MenuItem value="other">Other</MenuItem>
+              <MenuItem value="Male">Male</MenuItem>
+              <MenuItem value="Female">Female</MenuItem>
+              <MenuItem value="Other">Other</MenuItem>
             </TextField>
             <TextField
               label="Phone"
@@ -135,8 +147,6 @@ const UpdateDetails: React.FC = () => {
               name="address"
               value={details.address}
               onChange={handleChange}
-              multiline
-              rows={3}
               fullWidth
               margin="normal"
             />
