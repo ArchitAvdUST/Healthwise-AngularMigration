@@ -16,6 +16,10 @@ const LandingPage = () => {
         navigate('/login');
     };
 
+    const handleLogoClick = () => {
+        navigate('/');
+    };
+
     function handleBookAppointment(): void {
         navigate('/login');
     }
@@ -25,8 +29,8 @@ const LandingPage = () => {
             {/* Navbar */}
             <AppBar position="static" sx={{ backgroundColor: '#1976d2' }}>
                 <Toolbar>
-                    <HealthAndSafetyIcon />
-                    <Typography variant="h6" sx={{ flexGrow: 1, ml: 1 }}>
+                    <HealthAndSafetyIcon onClick={handleLogoClick} sx={{ cursor: 'pointer' }}/>
+                    <Typography variant="h6" sx={{ flexGrow: 1, ml: 1, cursor: 'pointer' }} onClick={handleLogoClick}>
                         HealthWise Pediatrics Clinic
                     </Typography>
                     <Button color="inherit" onClick={handleSignUpClick} sx={{ mr: 1 }}>Sign Up</Button>
@@ -187,7 +191,7 @@ const LandingPage = () => {
                         align="center"
                         sx={{ mb: 4 }}
                     >
-                        Welcome to KidsFirst Pediatric Clinic, where we prioritize your child's health and well-being.
+                        Welcome to HealthWise Pediatric Clinic, where we prioritize your child's health and well-being.
                         Our team of dedicated professionals offers comprehensive care tailored to meet the unique needs
                         of your family. We believe in a child-friendly approach to healthcare, ensuring comfort and trust
                         at every visit.

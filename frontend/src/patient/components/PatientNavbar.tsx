@@ -62,6 +62,10 @@ const PatientNavbar: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+};
+
   // Handle navigation
   const handleLogout = () => {
     handleClose();
@@ -74,8 +78,8 @@ const PatientNavbar: React.FC = () => {
     <AppBar position="static">
       <Toolbar>
         {/* Left side: Logo and Application Name */}
-        <HealthAndSafetyIcon />
-        <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10 }}>
+        <HealthAndSafetyIcon onClick={handleLogoClick} sx={{ cursor: 'pointer' }} />
+        <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10, cursor: 'pointer' }} onClick={handleLogoClick}>
           HealthWise Pediatric Clinic
         </Typography>
 

@@ -10,7 +10,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ArrowDropDown as ArrowDropDownIcon } from '@mui/icons-material';
+import { ArrowDropDown as ArrowDropDownIcon, HealthAndSafety } from '@mui/icons-material';
 import axios from 'axios';
 import SecurityIcon from '@mui/icons-material/Security';
 
@@ -53,6 +53,10 @@ const AdminNavbar: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+};
+
   // Handle navigation
   const handleLogout = () => {
     handleClose();
@@ -64,8 +68,8 @@ const AdminNavbar: React.FC = () => {
     <AppBar position="static">
       <Toolbar>
         {/* Left side: Logo and Application Name */}
-        <SecurityIcon />
-        <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10 }}>
+        <HealthAndSafety onClick={handleLogoClick} sx={{ cursor: 'pointer' }}/>
+        <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10,cursor: 'pointer' }} onClick={handleLogoClick} >
           HealthWise Admin Dashboard
         </Typography>
 
