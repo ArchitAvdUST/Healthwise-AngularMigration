@@ -19,6 +19,7 @@ import GenerateReports from './doctor/GenerateReports';
 import ViewAppointments from './doctor/ViewAppointments';
 import ViewMedicalHistory from './doctor/ViewMedicalHistory';
 import ManageAppointments from './doctor/ManageAppointments';
+import DoctorActions from './doctor/DoctorActions';
 
 
 import GetAppointments from './patient/GetAppointments';
@@ -57,6 +58,7 @@ const App: React.FC = () => {
           <Route path="/doctor/manage-appointments" element={<ManageAppointments />} />
           <Route path="/doctor/view-medical-history" element={<ViewMedicalHistory />} />
           <Route path="/doctor/generate-reports" element={<GenerateReports />} />
+          <Route path="/doctor/actions" element={<DoctorActions />}   />
 
         </Routes>
       </Router>

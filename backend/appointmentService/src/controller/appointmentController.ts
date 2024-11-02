@@ -46,22 +46,20 @@ export const getAppointmentsByDoctorAndDate = async (req: Request, res: Response
 // Retrieve all appointments for a particular doctor by username
 export const getAppointmentsByDoctorUsername = async (req: Request, res: Response) => {
   try {
-    const { username } = req.params;
-    
-    // Fetch doctor details using Axios
-    const response = await axios.get(`http://localhost:5000/api/doctors/${username}`);
-    
-    if (response.status !== 200) {
-      return res.status(404).json({ message: 'Doctor not found' });
+    const { username } = req.params; // Extract username from the URL parameters
+
+    // Find appointments by doctor's username
+    const appointments = await Appointment.find({ doctorUserName: username });
+
+    if (appointments.length === 0) {
+      return res.status(404).json({ message: 'No appointments found for this doctor' });
     }
 
-    const doctor = response.data;
-    const appointments = await Appointment.find({ doctorId: doctor.username });
     res.status(200).json(appointments);
   } catch (error) {
     res.status(400).json({ message: 'Error fetching appointments for doctor', error });
   }
-};   
+};
 
 // Retrieve all appointments for a particular patient by username
 export const getAppointmentsByPatientUsername = async (req: Request, res: Response) => {
@@ -126,3 +124,6 @@ export const deleteAppointment = async (req: Request, res: Response) => {
     res.status(400).json({ message: 'Error deleting appointment', error });
   }
 };
+
+
+

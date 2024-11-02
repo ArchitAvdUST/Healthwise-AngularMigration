@@ -5,16 +5,18 @@ export interface Appointment extends Document {
   date: string;
   time: string; // Consider using a more structured format if needed
   patientId: string;
-  doctorId: string;
+  doctorUserName: string;
   isCompleted: boolean;
+  symptoms: string;
 }
 
 const AppointmentSchema: Schema = new Schema({
   date: { type: String, required: true },
   time: { type: String, required: true }, // Consider using 'String' or 'Date' based on your requirements
   patientId: { type: String, required: true },
-  doctorId: { type: String, required: true },
+  doctorUserName: { type: String, required: true },
   isCompleted: { type: Boolean, default: false }, // Default to false
+  symptoms:{type: String, required: true},
 });
 
 // Create the model

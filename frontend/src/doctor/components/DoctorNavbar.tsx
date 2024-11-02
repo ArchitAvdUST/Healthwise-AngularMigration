@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowDropDown as ArrowDropDownIcon } from '@mui/icons-material';
 import axios from 'axios';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import { jwtDecode } from 'jwt-decode';
 
 const DoctorNavbar: React.FC = () => {
   const [doctorName, setDoctorName] = useState<string>(''); // State to hold doctor name
@@ -23,7 +24,15 @@ const DoctorNavbar: React.FC = () => {
   useEffect(() => {
     const fetchDoctorData = async () => {
       try {
-        const response = await axios.get('/api/doctor/'); // Update this to your doctor entity API endpoint
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+          throw new Error('Token not found in session storage');
+        }
+
+        const decodedToken: { username: string } = jwtDecode(token); // Assuming username is part of the token
+        const username = decodedToken.username;
+
+        const response = await axios.get(`http://localhost:5000/api/doctors/${username}`);
         setDoctorName(response.data.name); // Assuming the API returns an object with a 'name' property
       } catch (error) {
         console.error('Error fetching doctor data:', error);
