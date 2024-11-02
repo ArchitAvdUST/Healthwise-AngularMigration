@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/PatientNavbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { jwtDecode } from 'jwt-decode';
 
 interface TimeSlot {
   time: string;
@@ -27,9 +28,13 @@ const ChooseAppointment: React.FC = () => {
   const doctorId = location.state?.doctorId; // Get doctor ID from previous page state
 
   const fetchAvailableSlots = async (date: string) => {
-    const token = sessionStorage.getItem('token');
     try {
-      const response = await axios.get(`/api/availability?date=${date}&doctorId=${doctorId}`, {
+      const token = sessionStorage.getItem('token');
+        if(token){
+        const decodedToken: { username: string } = jwtDecode(token);
+        const username = decodedToken.username;
+      }
+      const response = await axios.get(`http://localhost:5000/api/timings/${doctorId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

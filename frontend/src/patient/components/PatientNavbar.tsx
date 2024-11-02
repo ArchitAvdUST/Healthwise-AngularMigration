@@ -65,8 +65,9 @@ const PatientNavbar: React.FC = () => {
   // Handle navigation
   const handleLogout = () => {
     handleClose();
+    sessionStorage.removeItem("token");
     console.log('Logout');
-    navigate('/login'); // Redirect to the login page after logout
+    navigate('/'); // Redirect to the login page after logout
   };
 
   return (
@@ -75,11 +76,11 @@ const PatientNavbar: React.FC = () => {
         {/* Left side: Logo and Application Name */}
         <HealthAndSafetyIcon />
         <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10 }}>
-          HealthWise Hospital Management
+          HealthWise Pediatric Clinic
         </Typography>
 
         {/* Right side: Home button */}
-        <Button color="inherit" onClick={() => navigate('/patient-dashboard')}>
+        <Button color="inherit" onClick={() => navigate('/patient/dashboard')}>
           Home
         </Button>
 

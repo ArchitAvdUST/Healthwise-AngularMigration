@@ -27,7 +27,7 @@ const PatientDashboard: React.FC = () => {
         setPatientName(response.data.name);
       }
       else{
-        throw new Error("Token not found in session storage");
+        navigate('/login');
       }
       } catch (err) {
         console.log(err);
