@@ -1,13 +1,45 @@
 import { Request, Response } from 'express';
 import Timing from '../entity/timing'; // Adjust the import path as necessary
 
+interface Slot {
+  start: Date;
+  end: Date;
+  isAvailable: boolean;
+}
+
+async function createTimingsForDoctor(doctorId: string, date: string, start: string, end: string) {
+  const dateOnly = new Date(date);
+  const startTime = new Date(`${date}T${start}`);
+  const endTime = new Date(`${date}T${end}`);
+  const slots = [];
+
+  let current = new Date(startTime);
+
+  while (current < endTime) {
+    const slotStart = new Date(current);
+    const slotEnd = new Date(current.setMinutes(current.getMinutes() + 15));
+    slots.push({ start: slotStart, end: slotEnd, isAvailable: true });
+  }
+
+  // Save the generated slots to the database
+  await Timing.create({ doctorId, date: dateOnly, slots });
+}
+
 export const createTiming = async (req: Request, res: Response) => {
+  const { doctorId, date, start, end } = req.body;
+
+  // Validate the input data
+  if (!doctorId || !date || !start || !end) {
+    return res.status(400).json({ error: "doctorId, date, start, and end times are required" });
+  }
+
   try {
-    const timing = new Timing(req.body);
-    await timing.save();
-    res.status(201).json(timing);
+    // Call the function to create and save timings
+    await createTimingsForDoctor(doctorId, date, start, end);
+    res.status(201).json({ message: "Timings created successfully." });
   } catch (error) {
-    res.status(400).json({ message: 'Error creating timing record', error });
+    console.error("Error creating timings:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

@@ -11,7 +11,7 @@ import {
 const router = Router();
 
 // Route to create a new timing record
-router.post('/timings', createTiming);
+router.post('/timings', createTiming as any);
 
 // Route to get all timing records
 router.get('/timings', getAllTimings);

@@ -40,7 +40,8 @@ const DoctorSelection: React.FC = () => {
   }, []);
 
   const handleChooseDoctor = (doctorUsername: string) => {
-    navigate('/choose-appointment', { state: { doctorUsername } });
+    sessionStorage.setItem('doctorUserName', doctorUsername);
+    navigate('/patient/choose-appointment', { state: { doctorUsername } });
   };
 
   const toggleExpanded = (username: string) => {

@@ -40,7 +40,7 @@ export const getADoctor = async(req: Request, res: Response) => {
 export const updateDoctor = async(req: Request,res: Response) => {
     try{
         const editDoctor = new Doctor(req.body);
-        await editDoctor.save();
+        await editDoctor.updateOne({username: editDoctor.username});
         res.status(200).json(editDoctor);
     }
     catch(error){

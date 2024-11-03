@@ -1,16 +1,26 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface Timing extends Document {
-  doctorId: string;  // Reference to the associated doctor
-  date: string;      // Date of the appointment
-  time: string;      // Time of the appointment
+  doctorId: string;
+  date: Date;  // Full date and time combined if storing as a single timestamp
+  time: { start: Date, end: Date }[]; // Alternatively, array of time intervals
 }
 
+
+// Updated TimingSchema to include availability for each slot
 const TimingSchema: Schema = new Schema({
   doctorId: { type: String, required: true },
-  date: { type: String, required: true },
-  time: { type: String, required: true },
-}, { timestamps: false }); // Ensure timestamps are disabled
+  date: { type: Date, required: true },
+  slots: [
+    {
+      start: { type: Date, required: true },
+      end: { type: Date, required: true },
+      isAvailable: { type: Boolean, default: true }
+    }
+  ]
+}, { timestamps: false });
+
+
 
 const Timing = mongoose.model<Timing>('Timing', TimingSchema);
 
