@@ -21,3 +21,12 @@ const BillingSchema: Schema = new Schema({
 const Billing = mongoose.model<Billing>('Billing', BillingSchema);
 
 export default Billing;
+
+/*
+{
+  bill:{
+  consulatation: number
+  medicines:number
+  
+  }
+}

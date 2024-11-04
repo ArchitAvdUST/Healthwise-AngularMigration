@@ -115,7 +115,7 @@ const AppointmentBooking: React.FC = () => {
       const appointmentDate = formatDate(selectedDate); // or just use selectedDate if it is already in string format
       const appointmentTime = `${formatDate(selectedDate!)} at ${ slotStart? formatTime(slotStart): slotStart} to  ${ slotEnd? formatTime(slotEnd): slotEnd}`; // Combine start and end times if needed
       try {
-        console.log(doctorId);
+        //console.log(doctorId);
         await axios.post('http://localhost:5000/api/appointments', {
           doctorUserName: doctorId,
           patientId: username,
@@ -127,11 +127,24 @@ const AppointmentBooking: React.FC = () => {
         setSnackbarMessage("Appointment confirmed!");
         setSnackbarOpen(true);
         setConfirmationOpen(false);
-        setAvailableSlots((prevSlots) =>
-          prevSlots.map((slot) =>
-            slot._id === selectedSlot ? { ...slot, isAvailable: false } : slot
-          )
-        );
+        const updatedTimings = timings.map((timing) => {
+          if (timing.date === selectedDate) {
+            return {
+              ...timing,
+              slots: timing.slots.map((slot) =>
+                slot._id === selectedSlot ? { ...slot, isAvailable: false } : slot
+              ),
+            };
+          }
+          return timing;
+        });
+        setTimings(updatedTimings);
+  
+        // Step 3: Send the updated timings entity to backend
+        const timingToUpdate = updatedTimings.find((timing) => timing.date === selectedDate);
+        if (timingToUpdate) {
+          await axios.put(`http://localhost:5000/api/timings/${timingToUpdate._id}`, timingToUpdate);
+        }
 
         // Redirect to another page or confirmation screen
         setTimeout(() => {

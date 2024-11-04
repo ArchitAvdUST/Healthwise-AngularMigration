@@ -80,6 +80,21 @@ export const updateTiming = async (req: Request, res: Response) => {
   }
 };
 
+export const updateTimingBasedOnDoctorId = async(req:Request, res:Response) => {
+  try {
+    const { doctorUserName } = req.params;
+    const updatedTiming = await Timing.findOneAndUpdate({doctorId: doctorUserName}, req.body, { new: true });
+
+    if (!updatedTiming) {
+      return res.status(404).json({ message: 'Timing record not found' });
+    }
+
+    res.status(200).json(updatedTiming);
+  } catch (error) {
+    res.status(400).json({ message: 'Error updating timing record', error });
+  }
+}
+
 export const deleteTiming = async (req: Request, res: Response) => {
   try {
     const { timingId } = req.params;

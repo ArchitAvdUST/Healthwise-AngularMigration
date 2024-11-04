@@ -31,13 +31,13 @@ function generateToken(user: UserType): string {
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
     const { username, password } = req.body;
-    console.log("Passed checkpoint 1");
+    //console.log("Passed checkpoint 1");
 
     try {
         // Retrieve user directly in the login function
         const user = await User.findOne({ username });
         
-        console.log("Passed checkpoint 2");
+        //console.log("Passed checkpoint 2");
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -46,7 +46,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
-        console.log("Passed checkpoint 3");
+        //console.log("Passed checkpoint 3");
         // Generate JWT token
         const token = generateToken(user);
         return res.json({ token });

@@ -5,7 +5,8 @@ import {
   getAllTimings,
   getTimingById,
   updateTiming,
-  getTimingsByDoctorId
+  getTimingsByDoctorId,
+  updateTimingBasedOnDoctorId
 } from '../controller/timingController'; // Adjust the import path as necessary
 
 const router = Router();
@@ -24,6 +25,8 @@ router.get('/timings/doctor/:doctorId', getTimingsByDoctorId as any);
 
 // Route to update a timing record by ID
 router.put('/timings/:timingId', updateTiming as any);
+
+router.put('/timings/doctor/:doctorId', updateTimingBasedOnDoctorId as any);
 
 // Route to delete a timing record by ID
 router.delete('/timings/:timingId', deleteTiming as any);
