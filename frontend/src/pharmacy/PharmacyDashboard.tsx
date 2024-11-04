@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Container, Grid } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import Navbar from './components/DoctorNavbar';
-import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
+import { useNavigate } from 'react-router-dom';
+import Navbar from './components/PharmacyNavbar'; // Adjust the import as necessary
+import { jwtDecode } from 'jwt-decode';
 
-const DoctorDashboard: React.FC = () => {
-  const [doctorName, setDoctorName] = useState<string | null>(null);
+const PharmacyDashboard: React.FC = () => {
+  const [pharmacistName, setPharmacistName] = useState<string | null>(null);
   const navigate = useNavigate(); // Initialize useNavigate
 
-  // Simulated fetch for doctor name
+  // Fetch pharmacist name from the token
   useEffect(() => {
-    const fetchDoctorName = async () => {
+    const fetchPharmacistName = async () => {
       const token = localStorage.getItem('token'); // Get the token from local storage
       if (token) {
         try {
           const decoded: any = jwtDecode(token); // Decode the token
-          setDoctorName(decoded.username); // Set the doctor's name from the decoded token
+          setPharmacistName(decoded.username); // Set the pharmacist's name from the decoded token
         } catch (error) {
           console.error('Error decoding token:', error);
         }
       }
     };
 
-    fetchDoctorName();
-  }, []); 
+    fetchPharmacistName();
+  }, []);
 
   return (
     <Box>
@@ -37,26 +37,25 @@ const DoctorDashboard: React.FC = () => {
             alignItems: 'center',
             width: '100%',
             maxWidth: '800px',
-            transition: 'box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out', // Smooth transition for shadow
-            boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)', // Always visible shadow
+            transition: 'box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out',
+            boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
             padding: 2,
             borderRadius: 2,
             backgroundColor: 'white',
             '&:hover': {
-              boxShadow: '0px 10px 50px rgba(0, 0, 0, 0.6)', // Darker shadow on hover
-              transform: 'translateY(-2px)', // Slight upward tilt effect
+              boxShadow: '0px 10px 50px rgba(0, 0, 0, 0.6)',
+              transform: 'translateY(-2px)',
             },
           }}
         >
-          {/* Greeting for Doctor */}
-          <Typography variant="h4" mb={2}>Hi, {doctorName}</Typography>
+          {/* Greeting for Pharmacist */}
+          <Typography variant="h4" mb={2}>Hi, {pharmacistName}</Typography>
 
           {/* Grid for Function Buttons */}
           <Grid container spacing={2} justifyContent="center">
             {[
-              { label: 'View Appointments', path: '/doctor/view-appointments' },
-              { label: 'Manage Appointments', path: '/doctor/manage-appointments' },
-              { label: 'Set Timings', path: '/doctor/set-timings' }, // New button added here
+              { label: 'View Stocks', path: '/pharmacy/view-stocks' },
+              { label: 'Add Stocks', path: '/pharmacy/add-stocks' },
             ].map(({ label, path }) => (
               <Grid item xs={6} key={label}>
                 <Button
@@ -82,4 +81,4 @@ const DoctorDashboard: React.FC = () => {
   );
 };
 
-export default DoctorDashboard;
+export default PharmacyDashboard;

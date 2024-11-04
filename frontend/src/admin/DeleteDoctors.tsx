@@ -44,7 +44,7 @@ const DeleteDoctor: React.FC = () => {
           <Grid container spacing={2} mb={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Doctor ID"
+                label="Doctor Username"
                 value={doctorId}
                 onChange={(e) => setDoctorId(e.target.value)}
                 fullWidth

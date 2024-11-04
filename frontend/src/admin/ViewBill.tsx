@@ -1,7 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AdminNavbar from './components/AdminNavBar'; // Adjust the path as necessary
 
 const ViewBill: React.FC = () => {
+  const [billItems, setBillItems] = useState([
+    { id: 1, description: 'Consultation Charges', unit: 'Hour', quantity: 1, price: 200, gst: 12, amount: 224.00 },
+    { id: 2, description: 'Lab Report', unit: 'Report', quantity: 1, price: 500, gst: 12, amount: 560.00 },
+    { id: 3, description: 'Pharmacy', unit: 'Item', quantity: 3, price: 150, gst: 12, amount: 504.00 },
+  ]);
+
+  const [subTotal, setSubTotal] = useState(1288.00);
+  const [discount, setDiscount] = useState(100.00);
+  const [amountPaid, setAmountPaid] = useState(300.00);
+
+  // Handle changes to the bill item fields
+  const handleChange = (index: number, field: string, value: string | number) => {
+    const updatedItems = [...billItems];
+   // updatedItems[index][field] = value;
+
+    // Calculate the amount based on quantity and price
+    if (field === 'quantity' || field === 'price' || field === 'gst') {
+      const quantity = updatedItems[index].quantity || 0;
+      const price = updatedItems[index].price || 0;
+      const gstRate = updatedItems[index].gst || 0;
+      const amount = quantity * price * (1 + gstRate / 100);
+      updatedItems[index].amount = parseFloat(amount.toFixed(2));
+    }
+
+    setBillItems(updatedItems);
+    updateSubTotal(updatedItems);
+  };
+
+  // Calculate the subtotal based on the updated items
+  const updateSubTotal = (items: any[]) => {
+    const total = items.reduce((acc, item) => acc + item.amount, 0);
+    setSubTotal(total);
+  };
+
   return (
     <div>
       <AdminNavbar />
@@ -41,52 +75,69 @@ const ViewBill: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td style={{ padding: '10px', textAlign: 'center' }}>1</td>
-                <td style={{ padding: '10px' }}>Registration Charges</td>
-                <td style={{ padding: '10px' }}>Hour</td>
-                <td style={{ padding: '10px' }}>1</td>
-                <td style={{ padding: '10px' }}>50</td>
-                <td style={{ padding: '10px' }}>12%</td>
-                <td style={{ padding: '10px' }}>₹56.00</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '10px', textAlign: 'center' }}>2</td>
-                <td style={{ padding: '10px' }}>Room Rent</td>
-                <td style={{ padding: '10px' }}>Hour</td>
-                <td style={{ padding: '10px' }}>2</td>
-                <td style={{ padding: '10px' }}>50</td>
-                <td style={{ padding: '10px' }}>12%</td>
-                <td style={{ padding: '10px' }}>₹134.40</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '10px', textAlign: 'center' }}>3</td>
-                <td style={{ padding: '10px' }}>Consultant Charges</td>
-                <td style={{ padding: '10px' }}>Hour</td>
-                <td style={{ padding: '10px' }}>2</td>
-                <td style={{ padding: '10px' }}>50</td>
-                <td style={{ padding: '10px' }}>12%</td>
-                <td style={{ padding: '10px' }}>₹112.00</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '10px', textAlign: 'center' }}>4</td>
-                <td style={{ padding: '10px' }}>OT Charges</td>
-                <td style={{ padding: '10px' }}>Hour</td>
-                <td style={{ padding: '10px' }}>3</td>
-                <td style={{ padding: '10px' }}>50</td>
-                <td style={{ padding: '10px' }}>12%</td>
-                <td style={{ padding: '10px' }}>₹168.00</td>
-              </tr>
+              {billItems.map((item, index) => (
+                <tr key={item.id}>
+                  <td style={{ padding: '10px', textAlign: 'center' }}>{item.id}</td>
+                  <td style={{ padding: '10px' }}>
+                    <input
+                      type="text"
+                      value={item.description}
+                      onChange={(e) => handleChange(index, 'description', e.target.value)}
+                      style={{ width: '100%', border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }}
+                    />
+                  </td>
+                  <td style={{ padding: '10px' }}>
+                    <input
+                      type="text"
+                      value={item.unit}
+                      onChange={(e) => handleChange(index, 'unit', e.target.value)}
+                      style={{ width: '100%', border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }}
+                    />
+                  </td>
+                  <td style={{ padding: '10px' }}>
+                    <input
+                      type="number"
+                      value={item.quantity}
+                      onChange={(e) => handleChange(index, 'quantity', Number(e.target.value))}
+                      style={{ width: '100%', border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }}
+                    />
+                  </td>
+                  <td style={{ padding: '10px' }}>
+                    <input
+                      type="number"
+                      value={item.price}
+                      onChange={(e) => handleChange(index, 'price', Number(e.target.value))}
+                      style={{ width: '100%', border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }}
+                    />
+                  </td>
+                  <td style={{ padding: '10px' }}>
+                    <input
+                      type="number"
+                      value={item.gst}
+                      onChange={(e) => handleChange(index, 'gst', Number(e.target.value))}
+                      style={{ width: '100%', border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }}
+                    />
+                  </td>
+                  <td style={{ padding: '10px' }}>
+                    <input
+                      type="number"
+                      value={item.amount}
+                      readOnly
+                      style={{ width: '100%', border: '1px solid #ddd', borderRadius: '4px', padding: '5px', backgroundColor: '#f0f0f0' }}
+                    />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
 
           {/* Amount Summary */}
           <div style={{ marginTop: '20px', fontSize: '16px', textAlign: 'right' }}>
-            <p>Sub Total: ₹470.40</p>
-            <p>Discount: ₹100.00</p>
-            <p><strong>Final Amount: ₹370.40</strong></p>
-            <p>Amount Paid: ₹100.00</p>
-            <p><strong>Balance: ₹270.40</strong></p>
+            <p>Sub Total: ₹{subTotal.toFixed(2)}</p>
+            <p>Discount: ₹{discount.toFixed(2)}</p>
+            <p><strong>Final Amount: ₹{(subTotal - discount).toFixed(2)}</strong></p>
+            <p>Amount Paid: ₹{amountPaid.toFixed(2)}</p>
+            <p><strong>Balance: ₹{(subTotal - discount - amountPaid).toFixed(2)}</strong></p>
           </div>
 
           {/* Declaration */}

@@ -13,7 +13,18 @@ import {
 import AdminNavbar from './components/AdminNavBar'; // Adjust the path as necessary
 
 const AddDoctor: React.FC = () => {
-  const [newDoctor, setNewDoctor] = useState({ name: '', specialty: '' });
+  const [newDoctor, setNewDoctor] = useState({
+    name: '',
+    sex: '',
+    age: 0,
+    email: '',
+    phone: '',
+    specialization: '',
+    username: '',
+    description: '',
+    password: '',
+  });
+  
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
@@ -22,7 +33,17 @@ const AddDoctor: React.FC = () => {
     try {
       const response = await axios.post('/api/doctors', newDoctor); // Adjust the endpoint as needed
       setSuccess(true);
-      setNewDoctor({ name: '', specialty: '' }); // Reset the form
+      setNewDoctor({
+        name: '',
+        sex: '',
+        age: 0,
+        email: '',
+        phone: '',
+        specialization: '',
+        username: '',
+        description: '',
+        password: '',
+      }); // Reset the form
       setError(null); // Clear any previous error
     } catch (error) {
       setError('Failed to add doctor. Please try again.');
@@ -53,9 +74,77 @@ const AddDoctor: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Specialty"
-                value={newDoctor.specialty}
-                onChange={(e) => setNewDoctor({ ...newDoctor, specialty: e.target.value })}
+                label="Sex"
+                value={newDoctor.sex}
+                onChange={(e) => setNewDoctor({ ...newDoctor, sex: e.target.value })}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Age"
+                type="number"
+                value={newDoctor.age}
+                onChange={(e) => setNewDoctor({ ...newDoctor, age: Number(e.target.value) })}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Email"
+                type="email"
+                value={newDoctor.email}
+                onChange={(e) => setNewDoctor({ ...newDoctor, email: e.target.value })}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Phone"
+                value={newDoctor.phone}
+                onChange={(e) => setNewDoctor({ ...newDoctor, phone: e.target.value })}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Specialization"
+                value={newDoctor.specialization}
+                onChange={(e) => setNewDoctor({ ...newDoctor, specialization: e.target.value })}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Username"
+                value={newDoctor.username}
+                onChange={(e) => setNewDoctor({ ...newDoctor, username: e.target.value })}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Password"
+                type="password"
+                value={newDoctor.password}
+                onChange={(e) => setNewDoctor({ ...newDoctor, password: e.target.value })}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Description"
+                multiline
+                rows={4}
+                value={newDoctor.description}
+                onChange={(e) => setNewDoctor({ ...newDoctor, description: e.target.value })}
                 fullWidth
                 variant="outlined"
               />
