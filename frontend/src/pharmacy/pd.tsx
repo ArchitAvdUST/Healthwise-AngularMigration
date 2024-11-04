@@ -1,29 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box, Button, Typography, Container, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './components/PharmacyNavbar'; // Adjust the import as necessary
-import { jwtDecode } from 'jwt-decode';
 
 const PharmacyDashboard: React.FC = () => {
-  const [pharmacistName, setPharmacistName] = useState<string | null>(null);
   const navigate = useNavigate(); // Initialize useNavigate
-
-  // Fetch pharmacist name from the token
-  useEffect(() => {
-    const fetchPharmacistName = async () => {
-      const token = localStorage.getItem('token'); // Get the token from local storage
-      if (token) {
-        try {
-          const decoded: any = jwtDecode(token); // Decode the token
-          setPharmacistName(decoded.username); // Set the pharmacist's name from the decoded token
-        } catch (error) {
-          console.error('Error decoding token:', error);
-        }
-      }
-    };
-
-    fetchPharmacistName();
-  }, []);
 
   return (
     <Box>
@@ -49,13 +30,13 @@ const PharmacyDashboard: React.FC = () => {
           }}
         >
           {/* Greeting for Pharmacist */}
-          <Typography variant="h4" mb={2}>Hi, {pharmacistName}</Typography>
+          <Typography variant="h4" mb={2}>Hi, Pharmacist</Typography>
 
           {/* Grid for Function Buttons */}
           <Grid container spacing={2} justifyContent="center">
             {[
-              { label: 'View Stocks', path: '/pharmacy/view-stocks' },
-              { label: 'Add Stocks', path: '/pharmacy/add-stocks' },
+              { label: 'View Stocks', path: '/pharmacy/ViewStocks' },
+              { label: 'Add Stocks', path: '/pharmacy/Addstocks' },
             ].map(({ label, path }) => (
               <Grid item xs={6} key={label}>
                 <Button

@@ -22,17 +22,21 @@ import ViewMedicalHistory from './doctor/ViewMedicalHistory';
 import ManageAppointments from './doctor/ManageAppointments';
 import DoctorActions from './doctor/DoctorActions';
 import SetTimings from './doctor/SetTimings';
-
+//patientendpoints
 import GetAppointments from './patient/GetAppointments';
 import BookAppointment from './patient/BookAppointment';
 import DoctorSelection from './patient/DoctorSelection';
 import ChooseAppointment from './patient/ChooseAppointment';
 import GetHistory from './patient/GetHistory';
 import UpdateDetails from './patient/UpdateProfile';
+//pharmacyendpoints
+import PharmacyDashboard from './pharmacy/pd';
+import ViewStocks from './pharmacy/ViewStocks';
+import AddStocks from './pharmacy/Addstocks';
 
 const App: React.FC = () => {
   return (
-         <Router>
+       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} /> 
 
@@ -62,6 +66,10 @@ const App: React.FC = () => {
           <Route path="/doctor/generate-reports" element={<GenerateReports />} />
           <Route path="/doctor/actions" element={<DoctorActions />}   />
           <Route path='/doctor/setTimings' element={<SetTimings />} />
+
+          <Route path='/pharmacy/dashboard' element={< PharmacyDashboard/>} />
+          <Route path='pharmacy/viewstocks' element={<ViewStocks/>} />
+          <Route path='/pharmacy/addstocks' element={<AddStocks/>} />
 
         </Routes>
       </Router>
