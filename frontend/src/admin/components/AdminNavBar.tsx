@@ -61,7 +61,7 @@ const AdminNavbar: React.FC = () => {
   const handleLogout = () => {
     handleClose();
     console.log('Logout');
-    navigate('/login'); // Redirect to the login page after logout
+    navigate('/'); // Redirect to the login page after logout
   };
 
   return (

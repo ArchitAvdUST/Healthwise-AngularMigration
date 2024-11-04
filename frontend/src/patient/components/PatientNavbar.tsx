@@ -16,6 +16,7 @@ import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { jwtDecode } from 'jwt-decode';
 
 const PatientNavbar: React.FC = () => {
+  const commonFontSize = { fontSize: '16px' };
   const [patientName, setPatientName] = useState<string>(''); // State to hold patient name
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
@@ -25,15 +26,15 @@ const PatientNavbar: React.FC = () => {
     const fetchPatientData = async () => {
       try {
         const token = sessionStorage.getItem('token');
-        if(token){
-        const decodedToken: { username: string } = jwtDecode(token);
-        const username = decodedToken.username;
-        const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-         // Update this to your patient entity API endpoint
-        setPatientName(response.data.name);
-       } // Assuming the API returns an object with a 'name' property
+        if (token) {
+          const decodedToken: { username: string } = jwtDecode(token);
+          const username = decodedToken.username;
+          const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          // Update this to your patient entity API endpoint
+          setPatientName(response.data.name);
+        } // Assuming the API returns an object with a 'name' property
       } catch (error) {
         console.error('Error fetching patient data:', error);
       }
@@ -64,7 +65,7 @@ const PatientNavbar: React.FC = () => {
 
   const handleLogoClick = () => {
     navigate('/');
-};
+  };
 
   // Handle navigation
   const handleLogout = () => {
@@ -84,16 +85,18 @@ const PatientNavbar: React.FC = () => {
         </Typography>
 
         {/* Right side: Home button */}
-        <Button color="inherit" onClick={() => navigate('/patient/dashboard')}>
+        <Button color="inherit" onClick={() => navigate('/patient/dashboard') } style={commonFontSize}>
           Home
         </Button>
 
         {/* Combined Patient Name, Avatar, and Dropdown Icon */}
         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-          <Typography variant="h6" style={{ margin: '0 10px' }}>
+          <Typography variant="h6" style={{ margin: '0 10px', ...commonFontSize }}>
             {patientName}
           </Typography>
-          <Avatar />
+          <Avatar>
+            {patientName.charAt(0).toUpperCase()}{patientName.charAt(1).toUpperCase()}
+          </Avatar>
           <IconButton onClick={handleMenuOpen} size="medium">
             <ArrowDropDownIcon />
           </IconButton>

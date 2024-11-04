@@ -91,7 +91,7 @@ const DoctorTimingsForm: React.FC = () => {
       // Redirect after 3 seconds
       setTimeout(() => {
         navigate('/doctor/dashboard');  // Replace '/some-other-page' with your target route
-      }, 3000);
+      }, 1000);
     } catch (error) {
       setSnackbarMessage('Error creating timings.');
       setSnackbarSeverity('error');

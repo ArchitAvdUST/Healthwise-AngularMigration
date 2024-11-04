@@ -1,77 +1,60 @@
 import { Request, Response } from 'express';
-import History from '../entity/history'; // Adjust the import path as necessary
+import History from '../entity/history';
 
-export const addHistory = async (req: Request, res: Response) => {
-  const { patientId, history, date, time, doctorUserName, symptoms } = req.body;
-
+export const addHistoryForPatient = async (req: Request, res: Response) => {
   try {
-    const newHistory = new History({
-      patientId,
-      history,
+    const { patientId } = req.params;
+    const { date, time, doctorUserName, symptoms } = req.body;
+
+    // New history entry to be added
+    const newHistoryEntry = {
       date,
       time,
       doctorUserName,
       symptoms,
-    });
+    };
 
-    await newHistory.save();
-    res.status(201).json({ message: 'History added successfully', data: newHistory });
+    // Check if the patient already has a history record
+    const existingHistory = await History.findOne({ patientId });
+
+    if (existingHistory) {
+      // If history exists, append the new entry
+      existingHistory.history.push(newHistoryEntry);
+      await existingHistory.save();
+      res.status(201).json({
+        message: 'History entry added for existing patient',
+        history: existingHistory,
+      });
+    } else {
+      // If no history exists, create a new history document for the patient
+      const newHistory = new History({
+        patientId,
+        history: [newHistoryEntry],
+      });
+      await newHistory.save();
+      res.status(201).json({
+        message: 'New history record created for patient',
+        history: newHistory,
+      });
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error adding history', error });
+    res.status(500).json({ message: 'Error adding history entry for patient', error });
   }
 };
 
-// Get history records by patient ID
+// Get all history records for a specific patient
 export const getHistoryByPatientId = async (req: Request, res: Response) => {
-  const { patientId } = req.params;
-
   try {
-    const historyRecords = await History.find({ patientId });
-    res.status(200).json({ message: 'History records retrieved successfully', data: historyRecords });
+    const { patientId } = req.params;
+    console.log(patientId);
+    const historyRecord = await History.findOne({ patientId });
+
+    if (!historyRecord || historyRecord.history.length === 0) {
+      return res.status(404).json({ message: 'No history found for this patient' });
+    }
+
+    res.status(200).json(historyRecord.history); // Return only the history array
   } catch (error) {
     res.status(500).json({ message: 'Error retrieving history records', error });
-  }
-};
-
-export const getAllHistories = async (req: Request, res: Response) => {
-  try {
-    const histories = await History.find();
-    res.status(200).json(histories);
-  } catch (error) {
-    res.status(400).json({ message: 'Error fetching histories', error });
-  }
-};
-
-export const updateHistory = async (req: Request, res: Response) => {
-  try {
-    const { patientId } = req.params;
-    const updatedHistory = await History.findOneAndUpdate(
-      { patientId },
-      req.body,
-      { new: true }
-    );
-    
-    if (!updatedHistory) {
-      return res.status(404).json({ message: 'History not found for this patient' });
-    }
-
-    res.status(200).json(updatedHistory);
-  } catch (error) {
-    res.status(400).json({ message: 'Error updating history', error });
-  }
-};
-
-export const deleteHistory = async (req: Request, res: Response) => {
-  try {
-    const { patientId } = req.params;
-    const result = await History.findOneAndDelete({ patientId });
-
-    if (!result) {
-      return res.status(404).json({ message: 'History not found for this patient' });
-    }
-
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(400).json({ message: 'Error deleting history', error });
   }
 };

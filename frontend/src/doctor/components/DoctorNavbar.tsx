@@ -14,6 +14,7 @@ import { ArrowDropDown as ArrowDropDownIcon } from '@mui/icons-material';
 import axios from 'axios';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { jwtDecode } from 'jwt-decode';
+import { deepOrange, deepPurple } from '@mui/material/colors';
 
 const DoctorNavbar: React.FC = () => {
   const [doctorName, setDoctorName] = useState<string>(''); // State to hold doctor name
@@ -62,12 +63,14 @@ const DoctorNavbar: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const commonFontSize = { fontSize: '16px' };
+
   // Handle navigation
   const handleLogout = () => {
     handleClose();
     console.log('Logout');
     sessionStorage.removeItem('token');
-    navigate('/login'); // Redirect to the login page after logout
+    navigate('/'); // Redirect to the login page after logout
   };
 
   return (
@@ -76,20 +79,20 @@ const DoctorNavbar: React.FC = () => {
         {/* Left side: Logo and Application Name */}
         <LocalHospitalIcon />
         <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10 }}>
-          HealthWise Hospital Management
+          HealthWise Pediatric Clinic
         </Typography>
 
         {/* Right side: Home button */}
-        <Button color="inherit" onClick={() => navigate('/doctor/dashboard')}>
+        <Button color="inherit" onClick={() => navigate('/doctor/dashboard')} style={commonFontSize}>
           Home
         </Button>
 
         {/* Combined Doctor Name, Avatar, and Dropdown Icon */}
         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-          <Typography variant="h6" style={{ margin: '0 10px' }}>
+          <Typography variant="h6" style={{ margin: '0 10px', ...commonFontSize }}>
             {doctorName}
           </Typography>
-          <Avatar />
+          <Avatar sx={{ bgcolor: deepOrange[500] }}>DOC</Avatar>
           <IconButton onClick={handleMenuOpen} size="medium">
             <ArrowDropDownIcon />
           </IconButton>

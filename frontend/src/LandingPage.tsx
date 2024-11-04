@@ -31,7 +31,7 @@ const LandingPage = () => {
                 <Toolbar>
                     <HealthAndSafetyIcon onClick={handleLogoClick} sx={{ cursor: 'pointer' }}/>
                     <Typography variant="h6" sx={{ flexGrow: 1, ml: 1, cursor: 'pointer' }} onClick={handleLogoClick}>
-                        HealthWise Pediatrics Clinic
+                        HealthWise Pediatric Clinic
                     </Typography>
                     <Button color="inherit" onClick={handleSignUpClick} sx={{ mr: 1 }}>Sign Up</Button>
                     <Button color="inherit" onClick={handleLoginClick}>Log In</Button>
