@@ -21,28 +21,26 @@ const Login: React.FC = () => {
 
     try {
       // Send login request to backend
-      // Send login request to backend using GET
-const response = await axios.post(`http://localhost:5000/api/users/login`, {
-    username,
-    password
-});
+      const response = await axios.post(`http://localhost:5000/api/users/login`, {
+        username,
+        password,
+      });
 
+      if (response.status === 200 && response.data.token) {
+        // Extract the JWT token from the response
+        const token = response.data.token;
 
-if (response.status === 200 && response.data.token) {
-  // Extract the JWT token from the response
-  const token = response.data.token;
+        // Fetch user role after successful login, using the token in the Authorization header
+        const roleResponse = await axios.get(`http://localhost:5000/api/users/${username}/role`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
-  // Fetch user role after successful login, using the token in the Authorization header
-  const roleResponse = await axios.get(`http://localhost:5000/api/users/${username}/role`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  // Get the user role from the response
-  const userRole = roleResponse.data;
-  console.log(userRole);
-  sessionStorage.setItem('token', token);
+        // Get the user role from the response
+        const userRole = roleResponse.data;
+        console.log(userRole);
+        sessionStorage.setItem('token', token);
 
         // Route based on role
         if (userRole === 'patient') {
@@ -65,7 +63,16 @@ if (response.status === 200 && response.data.token) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Box sx={{ mt: 8, mb: 2 }}>
+      <Box
+        sx={{
+          mt: 8,
+          mb: 2,
+          p: 3,
+          border: '1px solid #ccc', // Add border
+          borderRadius: '8px',
+          boxShadow: 2, // Add shadow for depth
+        }}
+      >
         <Typography component="h1" variant="h5">
           Login
         </Typography>
@@ -93,7 +100,14 @@ if (response.status === 200 && response.data.token) {
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{
+              mt: 3,
+              mb: 2,
+              backgroundColor: '#1976d2', // Base color
+              '&:hover': {
+                backgroundColor: '#004ba0', // Dark blue on hover
+              },
+            }}
           >
             Login
           </Button>

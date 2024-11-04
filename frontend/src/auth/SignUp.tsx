@@ -101,7 +101,16 @@ const SignUp: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Box sx={{ mt: 8, mb: 2 }}>
+      <Box
+        sx={{
+          mt: 8,
+          mb: 2,
+          p: 3,
+          border: '1px solid #ccc', // Add border
+          borderRadius: '8px',
+          boxShadow: 2, // Add shadow for depth
+        }}
+      >
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
@@ -133,7 +142,7 @@ const SignUp: React.FC = () => {
             label="Confirm Password"
             type="password"
             value={confirmPassword}
-            onChange={handleConfirmPasswordChange} // Updated to use new handler
+            onChange={handleConfirmPasswordChange}
             error={passwordMismatch} // Highlight if there is a mismatch
             helperText={passwordMismatch ? 'Passwords do not match.' : ''}
           />
@@ -154,7 +163,14 @@ const SignUp: React.FC = () => {
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{
+              mt: 3,
+              mb: 2,
+              backgroundColor: '#1976d2',
+              '&:hover': {
+                backgroundColor: '#004ba0', // Dark blue on hover
+              },
+            }}
             disabled={passwordMismatch || !!passwordError} // Disable the button if passwords do not match or there are password errors
           >
             Sign Up

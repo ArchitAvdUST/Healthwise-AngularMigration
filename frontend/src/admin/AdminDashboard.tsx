@@ -20,7 +20,7 @@ const AdminDashboard: React.FC = () => {
   const [doctors, setDoctors] = useState<any[]>([]);
   const [patients, setPatients] = useState<any[]>([]);
 
-  
+  /*
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,7 +48,7 @@ const AdminDashboard: React.FC = () => {
   if (error) {
     return <Alert severity="error">{error}</Alert>;
   }
-    
+     */
   return (
     <div>
       <AdminNavbar />

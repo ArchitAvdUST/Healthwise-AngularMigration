@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import AdminNavbar from './components/AdminNavBar'; // Adjust the path as necessary
+import React, { useState, useRef } from 'react';
+import AdminNavbar from './components/AdminNavBar';
 
 const ViewBill: React.FC = () => {
   const [billItems, setBillItems] = useState([
@@ -11,13 +11,13 @@ const ViewBill: React.FC = () => {
   const [subTotal, setSubTotal] = useState(1288.00);
   const [discount, setDiscount] = useState(100.00);
   const [amountPaid, setAmountPaid] = useState(300.00);
+  const [billingInfo, setBillingInfo] = useState<any>(null); // State for billing info
+  const billRef = useRef<HTMLDivElement>(null);
 
-  // Handle changes to the bill item fields
   const handleChange = (index: number, field: string, value: string | number) => {
     const updatedItems = [...billItems];
-   // updatedItems[index][field] = value;
+    updatedItems[index][field] = value;
 
-    // Calculate the amount based on quantity and price
     if (field === 'quantity' || field === 'price' || field === 'gst') {
       const quantity = updatedItems[index].quantity || 0;
       const price = updatedItems[index].price || 0;
@@ -30,10 +30,23 @@ const ViewBill: React.FC = () => {
     updateSubTotal(updatedItems);
   };
 
-  // Calculate the subtotal based on the updated items
   const updateSubTotal = (items: any[]) => {
     const total = items.reduce((acc, item) => acc + item.amount, 0);
     setSubTotal(total);
+  };
+
+  const handleSubmit = () => {
+    // Set the billing info with current state data
+    const billingData = {
+      items: billItems,
+      subTotal,
+      discount,
+      finalAmount: subTotal - discount,
+      amountPaid,
+      balance: subTotal - discount - amountPaid,
+    };
+    
+    setBillingInfo(billingData); // Update the billing info state
   };
 
   return (
@@ -41,11 +54,8 @@ const ViewBill: React.FC = () => {
       <AdminNavbar />
 
       <div style={{ fontFamily: 'Arial, sans-serif', margin: 0, padding: '20px', backgroundColor: '#f0f8ff' }}>
-        <div style={{ maxWidth: '800px', margin: 'auto', backgroundColor: 'white', border: '1px solid #ddd', padding: '20px', borderRadius: '8px' }}>
-          {/* Title */}
+        <div ref={billRef} style={{ maxWidth: '800px', margin: 'auto', backgroundColor: 'white', border: '1px solid #ddd', padding: '20px', borderRadius: '8px' }}>
           <h2 style={{ textAlign: 'center', fontSize: '24px', margin: '20px 0', color: '#008b8b' }}>Hospital Bill Book</h2>
-
-          {/* Patient Info */}
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
             <div>
               <p>Patient Name: <span>Enter Name</span></p>
@@ -61,7 +71,6 @@ const ViewBill: React.FC = () => {
             </div>
           </div>
 
-          {/* Table */}
           <table style={{ width: '100%', marginTop: '20px', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ backgroundColor: '#008b8b', color: 'white' }}>
@@ -78,14 +87,7 @@ const ViewBill: React.FC = () => {
               {billItems.map((item, index) => (
                 <tr key={item.id}>
                   <td style={{ padding: '10px', textAlign: 'center' }}>{item.id}</td>
-                  <td style={{ padding: '10px' }}>
-                    <input
-                      type="text"
-                      value={item.description}
-                      onChange={(e) => handleChange(index, 'description', e.target.value)}
-                      style={{ width: '100%', border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }}
-                    />
-                  </td>
+                  <td style={{ padding: '10px' }}>{item.description}</td>
                   <td style={{ padding: '10px' }}>
                     <input
                       type="text"
@@ -131,7 +133,6 @@ const ViewBill: React.FC = () => {
             </tbody>
           </table>
 
-          {/* Amount Summary */}
           <div style={{ marginTop: '20px', fontSize: '16px', textAlign: 'right' }}>
             <p>Sub Total: ₹{subTotal.toFixed(2)}</p>
             <p>Discount: ₹{discount.toFixed(2)}</p>
@@ -140,12 +141,10 @@ const ViewBill: React.FC = () => {
             <p><strong>Balance: ₹{(subTotal - discount - amountPaid).toFixed(2)}</strong></p>
           </div>
 
-          {/* Declaration */}
           <div style={{ textAlign: 'center', margin: '20px 0', fontSize: '14px', color: '#666' }}>
             <p>Declaration</p>
           </div>
 
-          {/* Signature Section */}
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' }}>
             <div style={{ width: '45%', textAlign: 'center', fontSize: '14px', color: '#666' }}>
               <p>Client's Signature</p>
@@ -155,11 +154,33 @@ const ViewBill: React.FC = () => {
             </div>
           </div>
 
-          {/* Footer */}
           <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '14px', color: '#666' }}>
             <p>Thanks for your business with us!!! Please visit us again!!!</p>
           </div>
         </div>
+
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <button onClick={handleSubmit} style={{ padding: '10px 20px', backgroundColor: '#008b8b', color: 'white', border: 'none', borderRadius: '5px' }}>
+            Submit
+          </button>
+        </div>
+
+        {billingInfo && (
+          <div style={{ marginTop: '40px', backgroundColor: '#fff', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+            <h3>Billing Information</h3>
+            <p>Sub Total: ₹{billingInfo.subTotal.toFixed(2)}</p>
+            <p>Discount: ₹{billingInfo.discount.toFixed(2)}</p>
+            <p><strong>Final Amount: ₹{billingInfo.finalAmount.toFixed(2)}</strong></p>
+            <p>Amount Paid: ₹{billingInfo.amountPaid.toFixed(2)}</p>
+            <p><strong>Balance: ₹{billingInfo.balance.toFixed(2)}</strong></p>
+            <h4>Items:</h4>
+            <ul>
+              {billingInfo.items.map((item: any) => (
+                <li key={item.id}>{item.description}: ₹{item.amount.toFixed(2)}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
