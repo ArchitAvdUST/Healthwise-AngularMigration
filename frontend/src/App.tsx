@@ -13,6 +13,7 @@ import AddDoctors  from './admin/AddDoctor';
 import ViewReviews from './admin/ViewReviews'
 import GenerateBills from './admin/GenerateBill';
 import  DeleteDoctors from './admin/DeleteDoctors';
+import ViewBill from './admin/ViewBill';
 //doctorEndpoints
 import DoctorDashboard from './doctor/DoctorDashboard';
 import GenerateReports from './doctor/GenerateReports';
@@ -52,6 +53,7 @@ const App: React.FC = () => {
           <Route path="/admin/delete-doctors" element={<DeleteDoctors/>} />
           <Route path="/admin/view-reviews" element ={<ViewReviews/>} />
           <Route path="/admin/generate-bills" element={<GenerateBills />} />
+          <Route path="/admin/view-bills" element={<ViewBill/>} />
 
           <Route path='/doctor/dashboard' element={<DoctorDashboard />} />
           <Route path="/doctor/view-appointments" element={<ViewAppointments />} />

@@ -7,6 +7,8 @@ import {
   TextField,
   Alert,
   Container,
+  Paper,
+  Grid,
 } from '@mui/material';
 import AdminNavbar from './components/AdminNavBar'; // Adjust the path as necessary
 
@@ -16,7 +18,6 @@ const DeleteDoctor: React.FC = () => {
   const [success, setSuccess] = useState<boolean>(false);
 
   // Handle deleting a doctor
-  /*
   const handleDeleteDoctor = async () => {
     try {
       const response = await axios.delete(`/api/doctors/${doctorId}`); // Adjust the endpoint as needed
@@ -28,33 +29,37 @@ const DeleteDoctor: React.FC = () => {
       setSuccess(false);
     }
   };
-  */
 
   return (
     <div>
       <AdminNavbar /> {/* Include the navbar here */}
 
-      <Container>
-        <Typography variant="h4" gutterBottom>
+      <Container component={Paper} elevation={3} sx={{ padding: 4, marginTop: 4 }}>
+        <Typography variant="h4" gutterBottom align="center">
           Delete Doctor
         </Typography>
 
         {/* Form to delete a doctor */}
-        <Box display="flex" mb={4} alignItems="center">
-          <TextField
-            label="Doctor ID"
-            value={doctorId}
-            onChange={(e) => setDoctorId(e.target.value)}
-            style={{ marginRight: '10px' }}
-          />
-          <Button variant="contained" color="secondary" /* onClick={handleDeleteDoctor} */>
+        <Box component="form" onSubmit={(e) => { e.preventDefault(); handleDeleteDoctor(); }} display="flex" flexDirection="column" alignItems="center">
+          <Grid container spacing={2} mb={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Doctor ID"
+                value={doctorId}
+                onChange={(e) => setDoctorId(e.target.value)}
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+          <Button variant="contained" color="secondary" type="submit">
             Delete Doctor
           </Button>
         </Box>
 
         {/* Error and success messages */}
-        {error && <Alert severity="error">{error}</Alert>}
-        {success && <Alert severity="success">Doctor deleted successfully!</Alert>}
+        {error && <Alert severity="error" sx={{ marginTop: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ marginTop: 2 }}>Doctor deleted successfully!</Alert>}
       </Container>
     </div>
   );
