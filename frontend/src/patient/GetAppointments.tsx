@@ -17,6 +17,7 @@ const GetAppointment: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  /*
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -84,7 +85,7 @@ const GetAppointment: React.FC = () => {
   if (error) {
     return <Alert severity="error">{error}</Alert>;
   }
-
+   */
   return (
     <div>
       {/* Navbar */}

@@ -15,6 +15,9 @@ import axios from 'axios';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { jwtDecode } from 'jwt-decode';
 
+// URL of the caduceus image
+const CADUCEUS_IMAGE_URL = 'https://example.com/path-to-your-caduceus-image.png'; // Replace with your actual image URL
+
 const PatientNavbar: React.FC = () => {
   const commonFontSize = { fontSize: '16px' };
   const [patientName, setPatientName] = useState<string>(''); // State to hold patient name
@@ -26,15 +29,15 @@ const PatientNavbar: React.FC = () => {
     const fetchPatientData = async () => {
       try {
         const token = sessionStorage.getItem('token');
-        if (token) {
-          const decodedToken: { username: string } = jwtDecode(token);
-          const username = decodedToken.username;
-          const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          // Update this to your patient entity API endpoint
-          setPatientName(response.data.name);
-        } // Assuming the API returns an object with a 'name' property
+        if(token){
+        const decodedToken: { username: string } = jwtDecode(token);
+        const username = decodedToken.username;
+        const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+         // Update this to your patient entity API endpoint
+        setPatientName(response.data.name);
+       } // Assuming the API returns an object with a 'name' property
       } catch (error) {
         console.error('Error fetching patient data:', error);
       }
@@ -47,16 +50,6 @@ const PatientNavbar: React.FC = () => {
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleUpdateProfile = (event: React.MouseEvent<HTMLElement>) => {
-    handleClose();
-    navigate('/patient/update-profile');
-  }
-
-  const handleGetHistory = (event: React.MouseEvent<HTMLElement>) => {
-    handleClose();
-    navigate('/patient/get-history');
-  }
 
   // Handle dropdown menu close
   const handleClose = () => {
@@ -94,9 +87,7 @@ const PatientNavbar: React.FC = () => {
           <Typography variant="h6" style={{ margin: '0 10px', ...commonFontSize }}>
             {patientName}
           </Typography>
-          <Avatar>
-            {patientName.charAt(0).toUpperCase()}{patientName.charAt(1).toUpperCase()}
-          </Avatar>
+          <Avatar />
           <IconButton onClick={handleMenuOpen} size="medium">
             <ArrowDropDownIcon />
           </IconButton>
@@ -116,8 +107,6 @@ const PatientNavbar: React.FC = () => {
             horizontal: 'center',
           }}
         >
-          <MenuItem onClick={handleUpdateProfile}>Update Profile Details</MenuItem>
-          <MenuItem onClick={handleGetHistory}>View History</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Toolbar>

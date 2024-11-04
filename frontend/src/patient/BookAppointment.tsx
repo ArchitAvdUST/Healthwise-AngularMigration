@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Box, Container, Typography, FormControl, InputLabel, Select, MenuItem, Button, TextField, SelectChangeEvent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './components/PatientNavbar';
-import { jwtDecode } from 'jwt-decode';
 
 const BookAppointment: React.FC = () => {
   const [selectedSymptom, setSelectedSymptom] = useState('');
@@ -23,15 +22,14 @@ const BookAppointment: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const token = sessionStorage.getItem('token');
-            if (!token) {
-                throw new Error("Token not found in session storage");
-            }
-            const decodedToken: { username: string } = jwtDecode(token);
-            const username = decodedToken.username; // Retrieve username
-      const symptomsToUpdate = selectedSymptom === 'Other' ? customSymptom : selectedSymptom;
-      // Update the patient's symptoms
-      sessionStorage.setItem('symptom', symptomsToUpdate);
+      // const token = sessionStorage.getItem('token');
+      // if (!token) {
+      //   throw new Error("Token not found in session storage");
+      // }
+      // const decodedToken: { username: string } = jwtDecode(token);
+      // const username = decodedToken.username; // Retrieve username
+      // const symptomsToUpdate = selectedSymptom === 'Other' ? customSymptom : selectedSymptom;
+      // sessionStorage.setItem('symptom', symptomsToUpdate);
 
       // Redirect to doctor selection page
       navigate('/patient/doctor-selection');
@@ -44,7 +42,23 @@ const BookAppointment: React.FC = () => {
     <div>
       <Navbar />
       <Container>
-        <Box mt={4} p={3} boxShadow={3} borderRadius="8px" bgcolor="#f9f9f9" textAlign="center" maxWidth="sm" mx="auto">
+        <Box
+          mt={4}
+          p={3}
+          boxShadow={3}
+          borderRadius="8px"
+          bgcolor="#f9f9f9"
+          textAlign="center"
+          maxWidth="sm"
+          mx="auto"
+          sx={{
+            transition: 'box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out',
+            '&:hover': {
+              boxShadow: '0px 8px 25px rgba(0, 0, 0, 0.5)', // Darker shadow on hover
+              bgcolor: '#e0e0e0', // Light grey background on hover
+            },
+          }}
+        >
           <Typography variant="h5" color="primary" gutterBottom>
             Book an Appointment
           </Typography>
@@ -62,7 +76,7 @@ const BookAppointment: React.FC = () => {
               <MenuItem value="Headache">Headache</MenuItem>
               <MenuItem value="Stomach Pain">Stomach Pain</MenuItem>
               <MenuItem value="Body Ache">Body Ache</MenuItem>
-              <MenuItem value="Other">Other</MenuItem> {/* Other option */}
+              <MenuItem value="Other">Other</MenuItem>
             </Select>
           </FormControl>
 
@@ -80,9 +94,15 @@ const BookAppointment: React.FC = () => {
           
           <Button 
             variant="contained" 
-            color="primary" 
+            sx={{ 
+              mt: 3, 
+              bgcolor: 'darkblue', // Dark blue background
+              color: 'white', // White text color
+              '&:hover': {
+                bgcolor: 'blue', // Change to a lighter blue on hover
+              },
+            }} 
             onClick={handleSubmit} 
-            sx={{ mt: 3 }}
             disabled={!selectedSymptom || (selectedSymptom === 'Other' && !customSymptom)} // Disable button until a symptom is selected or custom symptom is entered
           >
             Proceed to Select Doctor
