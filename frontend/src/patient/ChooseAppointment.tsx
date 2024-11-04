@@ -117,10 +117,10 @@ const AppointmentBooking: React.FC = () => {
       try {
         //console.log(doctorId);
         await axios.post('http://localhost:5000/api/appointments', {
-          doctorUserName: doctorId,
+          doctorUserName: test,
           patientId: username,
           date: appointmentDate, // Send as a formatted string
-        time: appointmentTime, // Send as a formatted string
+          time: appointmentTime, // Send as a formatted string
           isCompleted: false,
           symptoms: symptom
         });

@@ -61,6 +61,18 @@ export const getAppointmentsByDoctorUsername = async (req: Request, res: Respons
   }
 };
 
+export const getAAppointment = async(req: Request, res:Response) => {
+  try{
+    const { appointmentId } = req.params;
+    const response = await Appointment.findById(appointmentId);
+    res.status(200).json(response);
+  }
+  catch(error){
+    res.status(404).json({message:"Not found", error});
+  }
+
+}
+
 // Retrieve all appointments for a particular patient by username
 export const getAppointmentsByPatientUsername = async (req: Request, res: Response) => {
   try {

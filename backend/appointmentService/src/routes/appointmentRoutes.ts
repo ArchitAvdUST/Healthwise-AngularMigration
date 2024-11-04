@@ -8,6 +8,7 @@ import {
   getAppointmentsByDoctorUsername,
   getAppointmentsByPatientUsername,
   updateAppointment,
+  getAAppointment
 } from "../controller/appointmentController"; // Adjust the import path as necessary
 
 const router = Router();
@@ -17,6 +18,8 @@ router.post('/appointments', createAppointment);
 
 // Retrieve all appointments
 router.get('/appointments', getAllAppointments);
+
+router.get('/appointments/get/:appointmentId', getAAppointment)
 
 // Retrieve all appointments for a particular date
 router.get('/appointments/:date', getAppointmentsByDate);

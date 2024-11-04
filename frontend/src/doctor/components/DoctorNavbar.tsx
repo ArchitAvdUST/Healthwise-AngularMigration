@@ -66,6 +66,7 @@ const DoctorNavbar: React.FC = () => {
   const handleLogout = () => {
     handleClose();
     console.log('Logout');
+    sessionStorage.removeItem('token');
     navigate('/login'); // Redirect to the login page after logout
   };
 

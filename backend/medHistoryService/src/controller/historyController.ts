@@ -1,13 +1,35 @@
 import { Request, Response } from 'express';
 import History from '../entity/history'; // Adjust the import path as necessary
 
-export const createHistory = async (req: Request, res: Response) => {
+export const addHistory = async (req: Request, res: Response) => {
+  const { patientId, history, date, time, doctorUserName, symptoms } = req.body;
+
   try {
-    const history = new History(req.body);
-    await history.save();
-    res.status(201).json(history);
+    const newHistory = new History({
+      patientId,
+      history,
+      date,
+      time,
+      doctorUserName,
+      symptoms,
+    });
+
+    await newHistory.save();
+    res.status(201).json({ message: 'History added successfully', data: newHistory });
   } catch (error) {
-    res.status(400).json({ message: 'Error creating history', error });
+    res.status(500).json({ message: 'Error adding history', error });
+  }
+};
+
+// Get history records by patient ID
+export const getHistoryByPatientId = async (req: Request, res: Response) => {
+  const { patientId } = req.params;
+
+  try {
+    const historyRecords = await History.find({ patientId });
+    res.status(200).json({ message: 'History records retrieved successfully', data: historyRecords });
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving history records', error });
   }
 };
 
@@ -17,16 +39,6 @@ export const getAllHistories = async (req: Request, res: Response) => {
     res.status(200).json(histories);
   } catch (error) {
     res.status(400).json({ message: 'Error fetching histories', error });
-  }
-};
-
-export const getHistoriesByPatientId = async (req: Request, res: Response) => {
-  try {
-    const { patientId } = req.params;
-    const histories = await History.find({ patientId });
-    res.status(200).json(histories);
-  } catch (error) {
-    res.status(400).json({ message: 'Error fetching histories for patient', error });
   }
 };
 

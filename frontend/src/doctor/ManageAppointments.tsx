@@ -16,6 +16,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Navbar from './components/DoctorNavbar'; // Import Navbar
+import { jwtDecode } from 'jwt-decode';
 
 const ManageAppointments: React.FC = () => {
   const [appointments, setAppointments] = useState<any[]>([]);
@@ -28,13 +29,13 @@ const ManageAppointments: React.FC = () => {
       setLoading(true);
       setError(null); // Reset error before fetching
       try {
-        const token = sessionStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token not found in session storage');
-        }
-
-        const response = await axios.get('http://localhost:5000/api/appointments'); // Adjust API endpoint as needed
+        const token = sessionStorage.getItem('token'); // Get the token from local storage
+      if (token) {
+          const decodedToken:{username: string} = jwtDecode(token);
+          const username = decodedToken.username;
+          const response = await axios.get(`http://localhost:5000/api/appointments/doctor/username/${username}`); // Adjust API endpoint as needed
         setAppointments(response.data);
+        }
       } catch (error) {
         console.error('Error fetching appointments:', error);
         setError('Failed to fetch appointments.');
@@ -48,7 +49,8 @@ const ManageAppointments: React.FC = () => {
 
   const handleMarkAsCompleted = (id: string) => {
     // Navigate to the DoctorActions page when the button is clicked
-    navigate(`/doctor/actions/${id}`); // Adjust the route as necessary
+    sessionStorage.setItem('appointmentId', id);
+    navigate(`/doctor/actions`); // Adjust the route as necessary
   };
 
   // Filter appointments to show only those that are not completed
@@ -75,8 +77,9 @@ const ManageAppointments: React.FC = () => {
             </TableHead>
             <TableBody>
               {notCompletedAppointments.map((appointment) => (
-                <TableRow key={appointment.id}> {/* Ensure appointment.id exists */}
+                <TableRow key={appointment._id}> {/* Ensure appointment.id exists */}
                   <TableCell>{appointment.date}</TableCell>
+                  <TableCell>{appointment._id}</TableCell>
                   <TableCell>{appointment.patientName || appointment.patientId}</TableCell> {/* Use patient name if available */}
                   <TableCell>{appointment.isCompleted ? 'Completed' : 'Not Completed'}</TableCell>
                   <TableCell>
@@ -84,7 +87,7 @@ const ManageAppointments: React.FC = () => {
                       variant="contained"
                       color="primary"
                       size="small"
-                      onClick={() => handleMarkAsCompleted(appointment.id)} // Ensure appointment.id is correct
+                      onClick={() => handleMarkAsCompleted(appointment._id)} // Ensure appointment.id is correct
                       sx={{ borderRadius: '5px', padding: '6px 12px' }}
                     >
                       Take Action

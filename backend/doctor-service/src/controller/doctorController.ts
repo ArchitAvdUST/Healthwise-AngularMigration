@@ -24,7 +24,7 @@ export const getAllDoctors = async(req: Request, res: Response) => {
 export const getADoctor = async(req: Request, res: Response) => {
     try{
         const {doctorId} = req.params;
-        const doctor = await Doctor.findById(doctorId);
+        const doctor = await Doctor.findOne({username: doctorId});
         if(!doctor){
             res.status(404).json({message: "Doctor not found"});
         }

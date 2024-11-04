@@ -3,6 +3,7 @@ import { Box, Button, Typography, Container, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Navbar from './components/DoctorNavbar';
 import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
+import axios from 'axios';
 
 const DoctorDashboard: React.FC = () => {
   const [doctorName, setDoctorName] = useState<string | null>(null);
@@ -11,11 +12,14 @@ const DoctorDashboard: React.FC = () => {
   // Simulated fetch for doctor name
   useEffect(() => {
     const fetchDoctorName = async () => {
-      const token = localStorage.getItem('token'); // Get the token from local storage
+      const token = sessionStorage.getItem('token'); // Get the token from local storage
       if (token) {
         try {
-          const decoded: any = jwtDecode(token); // Decode the token
-          setDoctorName(decoded.username); // Set the doctor's name from the decoded token
+          const decodedToken:{username: string} = jwtDecode(token);
+          const username = decodedToken.username;
+        const response = await axios.get(`http://localhost:5000/api/doctors/${username}`);
+        setDoctorName(response.data.name);// Set the doctor's name from the decoded token
+        console.log(doctorName);
         } catch (error) {
           console.error('Error decoding token:', error);
         }
@@ -49,7 +53,8 @@ const DoctorDashboard: React.FC = () => {
           }}
         >
           {/* Greeting for Doctor */}
-          <Typography variant="h4" mb={2}>Hi, {doctorName}</Typography>
+          
+          <Typography variant="h4" mb={2}>Hi {doctorName},</Typography>
 
           {/* Grid for Function Buttons */}
           <Grid container spacing={2} justifyContent="center">
