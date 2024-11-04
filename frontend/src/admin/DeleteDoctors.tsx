@@ -20,7 +20,8 @@ const DeleteDoctor: React.FC = () => {
   // Handle deleting a doctor
   const handleDeleteDoctor = async () => {
     try {
-      const response = await axios.delete(`/api/doctors/${doctorId}`); // Adjust the endpoint as needed
+      const response = await axios.delete(`http://localhost:5000/api/doctors/${doctorId}`); // Adjust the endpoint as needed
+      await axios.delete(`http://localhost:5000/api/users/${doctorId}`);
       setSuccess(true);
       setDoctorId(''); // Reset the input field
       setError(null); // Clear any previous error

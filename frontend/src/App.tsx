@@ -68,7 +68,7 @@ const App: React.FC = () => {
           <Route path='/doctor/set-timings' element={<SetTimings />} />
 
           <Route path='/pharmacy/dashboard' element={< PharmacyDashboard/>} />
-          <Route path='pharmacy/viewstocks' element={<ViewStocks/>} />
+          <Route path='/pharmacy/viewstocks' element={<ViewStocks/>} />
           <Route path='/pharmacy/addstocks' element={<AddStocks/>} />
 
         </Routes>

@@ -51,7 +51,7 @@ export const updateDoctor = async(req: Request,res: Response) => {
 export const deleteDoctor = async(req: Request,res:Response) => {
     try{
         const {doctorId} = req.params;
-        const result =await Doctor.findByIdAndDelete(doctorId);
+        const result =await Doctor.findOneAndDelete({username: doctorId});
         if(!result){
             res.status(404).json({message:"Doctor not found"});
         }

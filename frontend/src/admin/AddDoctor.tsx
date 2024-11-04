@@ -11,6 +11,7 @@ import {
   Grid,
 } from '@mui/material';
 import AdminNavbar from './components/AdminNavBar'; // Adjust the path as necessary
+import { useNavigate } from 'react-router-dom';
 
 const AddDoctor: React.FC = () => {
   const [newDoctor, setNewDoctor] = useState({
@@ -22,16 +23,16 @@ const AddDoctor: React.FC = () => {
     specialization: '',
     username: '',
     description: '',
-    password: '',
   });
-  
+  const [password, setpassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   // Handle adding a new doctor
   const handleAddDoctor = async () => {
     try {
-      const response = await axios.post('/api/doctors', newDoctor); // Adjust the endpoint as needed
+      const response = await axios.post('http://localhost:5000/api/doctors', newDoctor); // Adjust the endpoint as needed
       setSuccess(true);
       setNewDoctor({
         name: '',
@@ -42,9 +43,17 @@ const AddDoctor: React.FC = () => {
         specialization: '',
         username: '',
         description: '',
-        password: '',
       }); // Reset the form
       setError(null); // Clear any previous error
+
+      await axios.post(`http://localhost:5000/api/users`,{
+        username: newDoctor.username,
+        password: password,
+        role: 'doctor'
+      });
+      setTimeout(() => {
+        navigate('/admin/dashboard'); // Change this to your desired route
+      }, 1000);
     } catch (error) {
       setError('Failed to add doctor. Please try again.');
       setSuccess(false);
@@ -132,8 +141,8 @@ const AddDoctor: React.FC = () => {
               <TextField
                 label="Password"
                 type="password"
-                value={newDoctor.password}
-                onChange={(e) => setNewDoctor({ ...newDoctor, password: e.target.value })}
+                value={password}
+                onChange={(e) => setpassword(e.target.value)}
                 fullWidth
                 variant="outlined"
               />

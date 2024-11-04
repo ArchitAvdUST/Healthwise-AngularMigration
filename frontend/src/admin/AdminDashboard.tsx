@@ -18,25 +18,19 @@ const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [doctors, setDoctors] = useState<any[]>([]);
-  const [patientsCount, setPatientsCount] = useState(0);
-  const [revenue, setRevenue] = useState(0);
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [patients, setPatients] = useState<any[]>([]);
 
-  /*
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [doctorsResponse, patientsResponse, revenueResponse, reviewsResponse] = await Promise.all([
-          axios.get('/api/doctors'),
-          axios.get('/api/patients'),
-          axios.get('/api/revenue'),
-          axios.get('/api/reviews'),
+        const [doctorsResponse, patientsResponse ] = await Promise.all([
+          axios.get('http://localhost:5000/api/doctors'),
+          axios.get('http://localhost:5000/api/patients'),
         ]);
         setDoctors(doctorsResponse.data);
-        setPatientsCount(patientsResponse.data.count);
-        setRevenue(revenueResponse.data.total);
-        setReviews(reviewsResponse.data);
+        setPatients(patientsResponse.data);
       } catch (err) {
         setError('Failed to load data');
       } finally {
@@ -54,7 +48,7 @@ const AdminDashboard: React.FC = () => {
   if (error) {
     return <Alert severity="error">{error}</Alert>;
   }
-    */
+    
   return (
     <div>
       <AdminNavbar />
@@ -87,10 +81,7 @@ const AdminDashboard: React.FC = () => {
                 Total Doctors: {doctors.length}
               </Typography>
               <Typography variant="h6" color="primary" mb={1}>
-                Total Patients: {patientsCount}
-              </Typography>
-              <Typography variant="h6" color="primary" mb={1}>
-                Total Revenue: ${revenue.toFixed(2)}
+                Total Patients: {patients.length}
               </Typography>
             </Grid>
           </Grid>
@@ -125,16 +116,6 @@ const AdminDashboard: React.FC = () => {
               }}
             >
               Generate Bill
-            </Button>
-            <Button 
-              variant="contained" 
-              color="primary" 
-              onClick={() => navigate('/admin/view-reviews')}
-              sx={{
-                '&:hover': { backgroundColor: '#003366' }
-              }}
-            >
-              View Reviews
             </Button>
           </Stack>
         </Box>
