@@ -28,10 +28,7 @@ const PharmacyNavbar: React.FC = () => {
         if (token) {
           const decodedToken: { username: string } = jwtDecode(token);
           const username = decodedToken.username;
-          const response = await axios.get(`http://localhost:5000/api/pharmacists/${username}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setPharmacistName(response.data.name); // Assuming the API returns an object with a 'name' property
+          setPharmacistName(username);
         }
       } catch (error) {
         console.error('Error fetching pharmacist data:', error);
@@ -44,16 +41,6 @@ const PharmacyNavbar: React.FC = () => {
   // Handle dropdown menu open
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-  };
-
-  const handleViewPrescriptions = (event: React.MouseEvent<HTMLElement>) => {
-    handleClose();
-    navigate('/pharmacy/view-prescriptions');
-  };
-
-  const handleManageInventory = (event: React.MouseEvent<HTMLElement>) => {
-    handleClose();
-    navigate('/pharmacy/manage-inventory');
   };
 
   // Handle dropdown menu close
@@ -112,8 +99,6 @@ const PharmacyNavbar: React.FC = () => {
             horizontal: 'center',
           }}
         >
-          <MenuItem onClick={handleViewPrescriptions}>View Prescriptions</MenuItem>
-          <MenuItem onClick={handleManageInventory}>Manage Inventory</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Toolbar>

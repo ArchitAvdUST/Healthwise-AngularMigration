@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import axios from 'axios';
+import PharmacyNavbar from './components/PharmacyNavbar';
 
 interface Medicine {
   name: string;   // Name of the medicine
@@ -14,11 +15,11 @@ const ViewStocks: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Fetch medicines data from the API
-  /*
+  
   useEffect(() => {
     const fetchMedicines = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/pharmacy/stocks'); // Adjust the endpoint as necessary
+        const response = await axios.get('http://localhost:5000/api/pharmacies'); // Adjust the endpoint as necessary
         setMedicines(response.data); // Assuming the response is an array of medicines
       } catch (error) {
         setError('Error fetching stocks');
@@ -37,9 +38,11 @@ const ViewStocks: React.FC = () => {
   if (error) {
     return <Typography variant="h6" color="error">{error}</Typography>;
   }
-    */
 
   return (
+    <>
+    <PharmacyNavbar />
+    <br />
     <Container>
       <Typography variant="h4" gutterBottom>Medicine Stocks</Typography>
       <TableContainer component={Paper}>
@@ -63,6 +66,7 @@ const ViewStocks: React.FC = () => {
         </Table>
       </TableContainer>
     </Container>
+    </>
   );
 };
 

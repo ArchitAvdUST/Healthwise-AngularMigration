@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Container } from '@mui/material';
 import axios from 'axios';
+import PharmacyNavbar from './components/PharmacyNavbar';
 
 const AddStocks: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -17,7 +18,7 @@ const AddStocks: React.FC = () => {
 
     try {
       const newStock = { name, price, stock };
-      const response = await axios.post('http://localhost:5000/api/pharmacy/add-stock', newStock); // Adjust the endpoint as necessary
+      const response = await axios.post('http://localhost:5000/api/pharmacies', newStock); // Adjust the endpoint as necessary
       setSuccessMessage('Stock added successfully!');
       // Clear the form after successful submission
       setName('');
@@ -29,6 +30,9 @@ const AddStocks: React.FC = () => {
   };   
 
   return (
+    <>
+    <PharmacyNavbar />
+    <br />
     <Container>
       <Typography variant="h4" gutterBottom>Add New Stock</Typography>
       <form onSubmit={handleSubmit}>
@@ -64,6 +68,7 @@ const AddStocks: React.FC = () => {
         </Box>
       </form>
     </Container>
+    </>
   );
 };
 
