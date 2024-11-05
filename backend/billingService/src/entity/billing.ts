@@ -17,7 +17,7 @@ const BillingSchema: Schema = new Schema({
   appointmentId: { type: String, required: true },
   medicines: { type: String },
   medicinesCost: { type: Number},
-  consultaionCost: {type: Number},
+  consultationCost: {type: Number},
   reportId: { type: String, },
   reportCost: {type: Number},
   totalCost: { type: Number },

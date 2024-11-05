@@ -5,7 +5,8 @@ import {
   getAllBillings,
   getBillingById,
   updateBilling,
-  getBillingByAppointmentId
+  getBillingByAppointmentId,
+  getBillingByPatientId
 } from '../controller/billingController'; // Adjust the import path as necessary
 
 const router = Router();
@@ -26,5 +27,8 @@ router.put('/billings/:billingId', updateBilling as any);
 router.delete('/billings/:billingId', deleteBilling as any);
 
 router.get('/billings/appointment/:appointmentId', getBillingByAppointmentId as any);
+
+router.get('/billings/patient/:patientId', getBillingByPatientId as any);
+
 
 export default router;

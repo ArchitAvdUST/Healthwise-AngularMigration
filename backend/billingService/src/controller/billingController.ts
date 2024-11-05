@@ -76,3 +76,21 @@ export const deleteBilling = async (req: Request, res: Response) => {
     res.status(400).json({ message: 'Error deleting billing record', error });
   }
 };
+
+export const getBillingByPatientId = async (req: Request, res: Response) => {
+  try {
+    const { patientId } = req.params; // Extract patientId from the request params
+    // Fetch all billing records for the specified patient
+    const billings = await Billing.find({ patientId });
+
+    // If no billings are found for the patient
+    if (!billings || billings.length === 0) {
+      return res.status(404).json({ message: 'No billing records found for this patient' });
+    }
+
+    // Return the found billings
+    res.status(200).json(billings);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching billing records', error });
+  }
+};

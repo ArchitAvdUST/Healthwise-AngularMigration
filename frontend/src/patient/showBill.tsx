@@ -57,8 +57,9 @@ const ShowBill: React.FC = () => {
 
   // Handle the "See Bill" button click
   const handleSeeBill = (appointmentId: string) => {
+    sessionStorage.setItem('appointmentId', appointmentId);
     // Navigate to the SeeBill page, passing the appointmentId in the URL
-    navigate(`/admin/see-bill/${appointmentId}`);
+    navigate(`/patient/Seebill`);
   };
 
   if (loading) {
