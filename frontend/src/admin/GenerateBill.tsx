@@ -16,39 +16,44 @@ import {
   Paper,
 } from '@mui/material';
 import AdminNavbar from './components/AdminNavBar'; // Adjust the path as necessary
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+
+interface BillingData {
+  patientId: string;
+  _id: string;
+  patientName: string;
+  totalCost: number;
+}
 
 const GenerateBill: React.FC = () => {
-  const [patients, setPatients] = useState<any[]>([]);
+  const [patients, setPatients] = useState<BillingData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Initialize the useNavigate hook
+  const navigate = useNavigate();
+
   // Fetch the list of patients and their total costs
-  /*
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchBillingData = async () => {
       try {
-        const response = await axios.get('/api/patients/costs'); // Adjust the endpoint as needed
-        setPatients(response.data);
+        const response = await axios.get('http://localhost:5000/api/billings'); // Adjust the endpoint as needed
+        setPatients(response.data); // Assuming response.data is an array of billing data
       } catch (err) {
-        setError('Failed to load patients information');
+        setError('Failed to load billings information');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPatients();
+    fetchBillingData();
   }, []);
 
-  // Handle generating a bill
-  const handleGenerateBill = async (patientId: string) => {
-    try {
-      await axios.post(`/api/patients/${patientId}/generate-bill`); // Adjust the endpoint as needed
-      alert('Bill generated successfully for patient ID: ' + patientId);
-      // Optionally, refresh the patient list or show updated data here
-    } catch (error) {
-      console.error('Failed to generate bill:', error);
-      alert('Failed to generate bill for patient ID: ' + patientId);
-    }
+  // Handle redirect to the "View Bill" page without generating a bill
+  const handleGenerateBill = (billingId: string) => {
+    sessionStorage.setItem('billingId',billingId);
+    // Redirect to the ViewBill page with the billingId
+    navigate(`/admin/view-bills`);
   };
 
   if (loading) {
@@ -58,7 +63,7 @@ const GenerateBill: React.FC = () => {
   if (error) {
     return <Alert severity="error">{error}</Alert>;
   }
-    */
+
   return (
     <div>
       <AdminNavbar /> {/* Include the navbar here */}
@@ -73,6 +78,7 @@ const GenerateBill: React.FC = () => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Billing ID</TableCell>
                 <TableCell>Patient Name</TableCell>
                 <TableCell>Total Cost</TableCell>
                 <TableCell align="right">Actions</TableCell>
@@ -80,16 +86,17 @@ const GenerateBill: React.FC = () => {
             </TableHead>
             <TableBody>
               {patients.map((patient) => (
-                <TableRow key={patient.id}>
-                  <TableCell>{patient.name}</TableCell>
-                  <TableCell>${patient.totalCost.toFixed(2)}</TableCell>
+                <TableRow key={patient._id}>
+                  <TableCell>{patient._id}</TableCell>
+                  <TableCell>{patient.patientName}</TableCell>
+                  <TableCell>${patient.totalCost}</TableCell>
                   <TableCell align="right">
                     <Button
                       variant="contained"
                       color="primary"
-                      /*onClick={() => handleGenerateBill(patient.id)} */
+                      onClick={() => handleGenerateBill(patient._id)} // Just navigate without generating a bill
                     >
-                      Generate Bill
+                      View Bill
                     </Button>
                   </TableCell>
                 </TableRow>

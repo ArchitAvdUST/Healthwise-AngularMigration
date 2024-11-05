@@ -29,6 +29,8 @@ import DoctorSelection from './patient/DoctorSelection';
 import ChooseAppointment from './patient/ChooseAppointment';
 import GetHistory from './patient/GetHistory';
 import UpdateDetails from './patient/UpdateProfile';
+import SeeBill from './patient/Seebill';
+import ShowBill from './patient/showBill';
 //pharmacyendpoints
 import PharmacyDashboard from './pharmacy/pd';
 import ViewStocks from './pharmacy/ViewStocks';
@@ -51,6 +53,8 @@ const App: React.FC = () => {
           <Route path='/patient/choose-appointment' element={<ChooseAppointment />} />
           <Route path='/patient/get-history' element= {<GetHistory />} />
           <Route path='/patient/update-profile' element={<UpdateDetails />} />
+          <Route path='/patient/showBill' element={<ShowBill/>} />
+          <Route path='/patient/seeBill'  element={<SeeBill/>} />
 
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path="/admin/add-doctors" element={<AddDoctors />} />

@@ -7,7 +7,8 @@ export interface Billing extends Document {
   medicinesCost: number;
   consultationCost: number;
   reportId: string;          // Associated report or description
-  reportCost: number;       
+  reportCost: number;  
+  totalCost: number;     
   dueDate: string;           // Due date for the payment
 }
 
@@ -19,6 +20,7 @@ const BillingSchema: Schema = new Schema({
   consultaionCost: {type: Number},
   reportId: { type: String, },
   reportCost: {type: Number},
+  totalCost: { type: Number },
   dueDate: { type: String },
 }, { timestamps: false }); // Ensure timestamps are disabled
 

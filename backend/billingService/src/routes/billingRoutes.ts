@@ -4,7 +4,8 @@ import {
   deleteBilling,
   getAllBillings,
   getBillingById,
-  updateBilling
+  updateBilling,
+  getBillingByAppointmentId
 } from '../controller/billingController'; // Adjust the import path as necessary
 
 const router = Router();
@@ -23,5 +24,7 @@ router.put('/billings/:billingId', updateBilling as any);
 
 // Route to delete a billing record by ID
 router.delete('/billings/:billingId', deleteBilling as any);
+
+router.get('/billings/appointment/:appointmentId', getBillingByAppointmentId as any);
 
 export default router;

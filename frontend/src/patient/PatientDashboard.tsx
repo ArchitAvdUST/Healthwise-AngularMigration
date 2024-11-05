@@ -61,7 +61,7 @@ const PatientDashboard: React.FC = () => {
   }
 
   function handleViewBills(): void {
-    navigate('/page-not-found');
+    navigate('/patient/showBill');
   }
 
   return (
@@ -103,7 +103,7 @@ const PatientDashboard: React.FC = () => {
                 Get Medical History
               </Button>
               <Button variant="contained" color="primary" onClick={handleViewBills}fullWidth>
-                View Bills
+                Show Bills
               </Button>
             </Stack>
           </Box>

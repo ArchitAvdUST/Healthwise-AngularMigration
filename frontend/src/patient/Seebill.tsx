@@ -1,19 +1,49 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import html2pdf from 'html2pdf.js';
 import { Button, Typography, Box, Container } from '@mui/material';
+import axios from 'axios';
 
 const SeeBill: React.FC = () => {
-  const [billItems] = useState([
-    { id: 1, description: 'Consultation Charges', quantity: 1, price: 200, gst: 12, amount: 224.00 },
-    { id: 2, description: 'Lab Report', quantity: 1, price: 500, gst: 12, amount: 560.00 },
-    { id: 3, description: 'Pharmacy', quantity: 3, price: 150, gst: 12, amount: 504.00 },
-  ]);
-
-  const [subTotal] = useState(1288.00);
-  const [discount] = useState(100.00);
-  const [amountPaid] = useState(300.00);
+  const [billItems, setBillItems] = useState<any[]>([]);
+  const [subTotal, setSubTotal] = useState<number>(0);
+  const [discount, setDiscount] = useState<number>(0);
+  const [amountPaid, setAmountPaid] = useState<number>(0);
+  const [patientName, setPatientName] = useState<string>('');
+  const [billNo, setBillNo] = useState<string>('');
+  const [billDate, setBillDate] = useState<string>('');
   const billRef = useRef<HTMLDivElement>(null); // Reference to the bill div
 
+  const appointmentId = 'YOUR_APPOINTMENT_ID_HERE'; // Replace with the actual appointment ID passed from the parent or fetched
+
+  // Fetch billing data when the component mounts or when the appointmentId changes
+  useEffect(() => {
+    const fetchBillData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/billings/${appointmentId}`);
+        const billingData = response.data;
+
+        // Populate the fields with fetched billing data
+        setPatientName(billingData.patientName);
+        setBillNo(billingData.billNo);
+        setBillDate(billingData.billDate);
+        setDiscount(billingData.discount);
+        setAmountPaid(billingData.amountPaid);
+        setBillItems(billingData.billItems);
+        
+        // Calculate the subtotal and total
+        const subtotal = billingData.billItems.reduce((sum: number, item: any) => sum + item.amount, 0);
+        setSubTotal(subtotal);
+      } catch (error) {
+        console.error('Error fetching billing data', error);
+      }
+    };
+
+    if (appointmentId) {
+      fetchBillData();
+    }
+  }, [appointmentId]);
+
+  // Handle PDF download
   const handleDownloadPDF = () => {
     const element = billRef.current;
     if (element) {
@@ -38,9 +68,9 @@ const SeeBill: React.FC = () => {
 
         {/* Billing Details */}
         <Box sx={{ marginBottom: 3 }}>
-          <Typography variant="h6">Patient Name: <strong>John Doe</strong></Typography>
-          <Typography variant="body1">Bill No.: <strong>#12345</strong></Typography>
-          <Typography variant="body1">Date: <strong>2024-11-05</strong></Typography>
+          <Typography variant="h6">Patient Name: <strong>{patientName}</strong></Typography>
+          <Typography variant="body1">Bill No.: <strong>{billNo}</strong></Typography>
+          <Typography variant="body1">Date: <strong>{billDate}</strong></Typography>
         </Box>
 
         {/* Table of Bill Items */}
@@ -55,7 +85,7 @@ const SeeBill: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {billItems.map(item => (
+            {billItems.map((item) => (
               <tr key={item.id}>
                 <td style={{ padding: '10px', textAlign: 'center' }}>{item.description}</td>
                 <td style={{ padding: '10px', textAlign: 'center' }}>{item.quantity}</td>

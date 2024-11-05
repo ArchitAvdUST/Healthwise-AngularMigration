@@ -32,6 +32,20 @@ export const getBillingById = async (req: Request, res: Response) => {
     res.status(400).json({ message: 'Error fetching billing record', error });
   }
 };
+export const getBillingByAppointmentId = async (req: Request, res: Response) => {
+  try {
+    const { appointmentId } = req.params; // Extract appointmentId from URL params
+    const billing = await Billing.findOne({ appointmentId });
+
+    if (!billing) {
+      return res.status(404).json({ message: 'Billing record not found for this appointment' });
+    }
+
+    res.status(200).json(billing);
+  } catch (error) {
+    res.status(400).json({ message: 'Error fetching billing record by appointment ID', error });
+  }
+};
 
 export const updateBilling = async (req: Request, res: Response) => {
   try {
