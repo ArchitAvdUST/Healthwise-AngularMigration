@@ -19,9 +19,9 @@ const DoctorSelection: React.FC = () => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({}); // Track expanded state for each doctor
 
- /* useEffect(() => {
+  useEffect(() => {
     const fetchDoctors = async () => {
-      /*const token = sessionStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       try {
         const response = await axios.get(`http://localhost:5000/api/doctors`, {
@@ -37,7 +37,7 @@ const DoctorSelection: React.FC = () => {
     };
 
     fetchDoctors();
-  }, []); */
+  }, []); 
 
   const handleChooseDoctor = (doctorUsername: string) => {
     sessionStorage.setItem('doctorUserName', doctorUsername);

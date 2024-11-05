@@ -79,7 +79,6 @@ const ManageAppointments: React.FC = () => {
               {notCompletedAppointments.map((appointment) => (
                 <TableRow key={appointment._id}> {/* Ensure appointment.id exists */}
                   <TableCell>{appointment.date}</TableCell>
-                  <TableCell>{appointment._id}</TableCell>
                   <TableCell>{appointment.patientName || appointment.patientId}</TableCell> {/* Use patient name if available */}
                   <TableCell>{appointment.isCompleted ? 'Completed' : 'Not Completed'}</TableCell>
                   <TableCell>

@@ -69,7 +69,7 @@ const AppointmentBooking: React.FC = () => {
         if(DoctorUserName){
           setdoctorId(DoctorUserName);
         }
-        const response = await axios.get(`http://localhost:5000/api/timings/doctor/${test}`);
+        const response = await axios.get(`http://localhost:5000/api/timings/doctor/${doctorId}`);
         setTimings(response.data);
       } catch (error) {
         console.error("Error fetching timings", error);
@@ -117,7 +117,7 @@ const AppointmentBooking: React.FC = () => {
       try {
         //console.log(doctorId);
         await axios.post('http://localhost:5000/api/appointments', {
-          doctorUserName: test,
+          doctorUserName: doctorId,
           patientId: username,
           date: appointmentDate, // Send as a formatted string
           time: appointmentTime, // Send as a formatted string
@@ -149,7 +149,7 @@ const AppointmentBooking: React.FC = () => {
         // Redirect to another page or confirmation screen
         setTimeout(() => {
           navigate('/patient/dashboard');
-        }, 3000);
+        }, 1000);
       } catch (error) {
         console.error("Error confirming appointment", error);
         setSnackbarMessage("Error booking appointment. Please try again.");

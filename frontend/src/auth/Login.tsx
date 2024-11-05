@@ -49,7 +49,10 @@ const Login: React.FC = () => {
           navigate('/doctor/dashboard');
         } else if (userRole === 'admin') {
           navigate('/admin/dashboard');
-        } else {
+        } else if (userRole === 'pharmacy') {
+          navigate('/pharmacy/dashboard');
+        }
+        else {
           setError('Unrecognized role.');
         }
       } else {

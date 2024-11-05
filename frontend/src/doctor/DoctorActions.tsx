@@ -73,7 +73,7 @@ const ActionDoctor: React.FC = () => {
         console.log(patientHistory);
       } catch (err) {
         console.error('Error fetching patient history:', err);
-        setError('Failed to fetch patient history.');
+        //setError('Failed to fetch patient history.');
       }
     };
 

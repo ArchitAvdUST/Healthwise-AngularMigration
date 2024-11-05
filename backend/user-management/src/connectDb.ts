@@ -57,6 +57,11 @@ const doctorCredentials = [
         "username": "doctor",
         "password":"doctor123",
         "role":"doctor"
+    },
+    {
+        "username":"pharmacist",
+        "password":"pharmacist123",
+        "role":"pharmacy"
     }
 ];
 
