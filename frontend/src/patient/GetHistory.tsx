@@ -9,6 +9,7 @@ interface HistoryItem {
   time: string;
   doctorUserName: string;
   symptoms: string;
+  comment: string;
 }
 
 const GetHistory: React.FC = () => {
@@ -60,6 +61,7 @@ const GetHistory: React.FC = () => {
                     <div style={{ fontWeight: 'bold' }}>{`Date: ${historyItem.date}`}</div>
                     <div style={{ fontWeight: 'bold' }}>{`Time: ${historyItem.time}`}</div>
                     <div style={{ fontWeight: 'bold' }}>{`Doctor: ${historyItem.doctorUserName}`}</div>
+                    <div style={{ fontWeight: 'bold' }}>{`Comment: ${historyItem.comment}`}</div>
                     <div>{`Symptoms: ${historyItem.symptoms}`}</div>
                   </div>
                 ))

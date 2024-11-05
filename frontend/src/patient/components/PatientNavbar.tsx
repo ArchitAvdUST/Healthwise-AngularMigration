@@ -15,13 +15,11 @@ import axios from 'axios';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { jwtDecode } from 'jwt-decode';
 
-// URL of the caduceus image
-const CADUCEUS_IMAGE_URL = 'https://example.com/path-to-your-caduceus-image.png'; // Replace with your actual image URL
-
 const PatientNavbar: React.FC = () => {
   const [patientName, setPatientName] = useState<string>(''); // State to hold patient name
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const commonFontSize = { fontSize: '16px' };
 
   // Fetch patient data from the API using Axios
   useEffect(() => {
@@ -66,6 +64,11 @@ const PatientNavbar: React.FC = () => {
     navigate('/'); // Redirect to the login page after logout
   };
 
+  const handleUpdateProfile = () => {
+    handleClose();
+    navigate('/patient/update-profile');
+  }
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -76,16 +79,20 @@ const PatientNavbar: React.FC = () => {
         </Typography>
 
         {/* Right side: Home button */}
-        <Button color="inherit" onClick={() => navigate('/patient/dashboard')}>
+        <Button color="inherit" onClick={() => navigate('/patient/dashboard')} style={commonFontSize}>
           Home
         </Button>
 
         {/* Combined Patient Name, Avatar, and Dropdown Icon */}
         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-          <Typography variant="h6" style={{ margin: '0 10px' }}>
+          <Typography variant="h6" style={{ margin: '0 10px', ...commonFontSize }}>
             {patientName}
           </Typography>
-          <Avatar src={CADUCEUS_IMAGE_URL} alt="Caduceus Avatar" />
+          <Avatar>
+            {patientName.length >= 2
+              ? `${patientName.charAt(0).toUpperCase()}${patientName.charAt(1).toUpperCase()}`
+              : patientName.toUpperCase()}
+          </Avatar>
           <IconButton onClick={handleMenuOpen} size="medium">
             <ArrowDropDownIcon />
           </IconButton>
@@ -105,6 +112,7 @@ const PatientNavbar: React.FC = () => {
             horizontal: 'center',
           }}
         >
+          <MenuItem onClick={handleUpdateProfile}>Update Profile Details</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Toolbar>

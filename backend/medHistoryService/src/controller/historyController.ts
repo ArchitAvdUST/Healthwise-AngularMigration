@@ -4,7 +4,7 @@ import History from '../entity/history';
 export const addHistoryForPatient = async (req: Request, res: Response) => {
   try {
     const { patientId } = req.params;
-    const { date, time, doctorUserName, symptoms } = req.body;
+    const { date, time, doctorUserName, symptoms, comment } = req.body;
 
     // New history entry to be added
     const newHistoryEntry = {
@@ -12,6 +12,7 @@ export const addHistoryForPatient = async (req: Request, res: Response) => {
       time,
       doctorUserName,
       symptoms,
+      comment
     };
 
     // Check if the patient already has a history record

@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import DoctorNavbar from './components/DoctorNavbar';
 
 interface DecodedToken {
   username: string;
@@ -104,7 +105,9 @@ const DoctorTimingsForm: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <>
+    <DoctorNavbar />
+    <Container maxWidth="sm" >
       <Box sx={{ mt: 4, p: 3, boxShadow: 3, borderRadius: 2 }}>
         <Typography variant="h5" component="h1" gutterBottom>
           Set Your Working Hours
@@ -178,6 +181,7 @@ const DoctorTimingsForm: React.FC = () => {
         </Alert>
       </Snackbar>
     </Container>
+    </>
   );
 };
 

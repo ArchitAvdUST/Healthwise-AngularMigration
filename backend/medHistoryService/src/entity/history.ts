@@ -7,6 +7,7 @@ export interface History extends Document {
     time: string;
     doctorUserName: string;
     symptoms: string;
+    comment: string;
   }[];
 }
 
@@ -33,6 +34,10 @@ const HistorySchema = new Schema<History>({
         type: String,
         required: true,
       },
+      comment: {
+        type: String,
+        required: true,
+      }
     },
   ],
 });

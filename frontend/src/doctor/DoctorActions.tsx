@@ -30,6 +30,7 @@ interface HistoryItem {
   time: string;
   doctorUserName: string;
   symptoms: string;
+  comment: string;
 }
 
 const ActionDoctor: React.FC = () => {
@@ -41,6 +42,7 @@ const ActionDoctor: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [comments, setComments] = useState<string>('No comment');
 
   const appointmentId = sessionStorage.getItem('appointmentId');
   const navigate = useNavigate();
@@ -48,7 +50,7 @@ const ActionDoctor: React.FC = () => {
   useEffect(() => {
     const fetchAppointmentDetails = async () => {
       if (!appointmentId) {
-        setError('No appointment ID found in session storage.');
+        //setError('No appointment ID found in session storage.');
         setLoading(false);
         return;
       }
@@ -59,7 +61,7 @@ const ActionDoctor: React.FC = () => {
         return response.data; // Return appointment data to be used later
       } catch (err) {
         console.error('Error fetching appointment details:', err);
-        setError('Failed to fetch appointment details.');
+        //setError('Failed to fetch appointment details.');
         return null; // Return null if there was an error
       }
     };
@@ -99,24 +101,19 @@ const ActionDoctor: React.FC = () => {
     fetchMedicines();
   }, [appointmentId]);
 
-  const handleCompleteAppointment = async () => {
-    if (!appointmentId) return;
-
-    try {
-      await axios.put(`http://localhost:5000/api/appointments/${appointmentId}`, {
-        isCompleted: true,
-      });
-      setAppointmentCompleted(true);
-    } catch (err) {
-      console.error('Error marking appointment as completed:', err);
-      setError('Failed to mark appointment as completed.');
-    }
-  };
-
   const handleSubmit = async () => {
     if (!selectedMedicine) return;
-
     try {
+      if (!appointmentId) return;
+      try {
+        await axios.put(`http://localhost:5000/api/appointments/${appointmentId}`, {
+          isCompleted: true,
+        });
+        setAppointmentCompleted(true);
+      } catch (err) {
+        console.error('Error marking appointment as completed:', err);
+        setError('Failed to mark appointment as completed.');
+      }
       await axios.post('http://localhost:5000/api/billings', {
         patientId: appointment?.patientId,
         appointmentId: appointmentId,
@@ -124,11 +121,12 @@ const ActionDoctor: React.FC = () => {
         medicinesCost: selectedMedicine.price,
       });
       await axios.post(`http://localhost:5000/api/histories/add/${appointment?.patientId}`, {
-        date: appointment?.date,              
-        time: appointment?.time,              
-        doctorUserName: appointment?.doctorUserName, 
-        symptoms: appointment?.symptoms       
-      });      
+        date: appointment?.date,
+        time: appointment?.time,
+        doctorUserName: appointment?.doctorUserName,
+        symptoms: appointment?.symptoms,
+        comment: comments,
+      });
       setSnackbarOpen(true);
       sessionStorage.removeItem('appointmentId');
       setTimeout(() => {
@@ -138,6 +136,10 @@ const ActionDoctor: React.FC = () => {
       console.error('Error submitting prescription:', err);
       setError('Failed to submit prescription.');
     }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComments(event.target.value);
   };
 
   return (
@@ -192,15 +194,14 @@ const ActionDoctor: React.FC = () => {
           {/* Appointment Completion */}
           <Grid item xs={4}>
             <Box sx={{ padding: 2, border: '1px solid #ccc', borderRadius: 2, backgroundColor: 'white' }}>
-              <Typography variant="h6">Complete Appointment</Typography>
-              <Button
-                variant="contained"
-                color={appointmentCompleted ? "success" : "error"}
-                onClick={handleCompleteAppointment}
-                sx={{ mb: 2 }}
-              >
-                {appointmentCompleted ? "Completed" : "Mark as Completed"}
-              </Button>
+              <Typography variant="h6">Comments:</Typography>
+              <TextField
+                variant="outlined"
+                label=""
+                fullWidth
+                sx={{ mt: 2 }}
+                onChange={handleInputChange} // Add your own handler for managing input state
+              />
             </Box>
           </Grid>
         </Grid>
