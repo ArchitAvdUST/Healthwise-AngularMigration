@@ -32,7 +32,7 @@ const BookAppointment: React.FC = () => {
       const symptomsToUpdate = selectedSymptom === 'Other' ? customSymptom : selectedSymptom;
       sessionStorage.setItem('symptom', symptomsToUpdate);
 
-      //Redirect to doctor selection page
+      // Redirect to doctor selection page
       navigate('/patient/doctor-selection');
     } catch (error) {
       console.error('Error updating symptoms:', error);

@@ -70,7 +70,7 @@ const PatientNavbar: React.FC = () => {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" >
       <Toolbar>
         {/* Left side: Logo and Application Name */}
         <HealthAndSafetyIcon onClick={handleLogoClick} sx={{ cursor: 'pointer' }} />

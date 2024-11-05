@@ -62,6 +62,11 @@ const doctorCredentials = [
         "username":"pharmacist",
         "password":"pharmacist123",
         "role":"pharmacy"
+    },
+    {
+        "username":"admin",
+        "password":"admin123",
+        "role":"admin"
     }
 ];
 
@@ -92,7 +97,7 @@ export const connectDb = async() => {
         const conn = await mongoose.connect('mongodb://127.0.0.1:27017/doctor_service');
         console.log(`MongoDB connected: ${conn.connection.host}`);
         upsertDoctors(doctorCredentials);
-        console.log('Doctor credentials added');
+        console.log('Sample credentials added');
     }
     catch(error){
         console.log(error);

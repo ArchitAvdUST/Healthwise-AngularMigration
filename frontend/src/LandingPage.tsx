@@ -27,7 +27,7 @@ const LandingPage = () => {
     return (
         <>
             {/* Navbar */}
-            <AppBar position="static" sx={{ backgroundColor: '#1976d2' }}>
+            <AppBar position="static" sx={{ backgroundColor: '#1A1A1D' }}>
                 <Toolbar>
                     <HealthAndSafetyIcon onClick={handleLogoClick} sx={{ cursor: 'pointer' }}/>
                     <Typography variant="h6" sx={{ flexGrow: 1, ml: 1, cursor: 'pointer' }} onClick={handleLogoClick}>

@@ -21,7 +21,12 @@ const SeeBill: React.FC = () => {
   const fetchPatientData = async (patientId: string) => {
     try {
       const response = await axios.get(`http://localhost:5000/api/patients/${patientId}`);
-      setPatientName(response.data.name); // Assuming the patient data has 'name' field
+      if (response.data.length > 0) {
+        setPatientName(response.data[0].name); // Set the name from the first element
+        console.log(response.data[0]); // Log the first element of the array
+      } else {
+        console.log('No patient data available');
+      }
     } catch (error) {
       console.error('Error fetching patient data', error);
     }
@@ -62,6 +67,7 @@ const SeeBill: React.FC = () => {
       if(token){
         const decodedToken: any = jwtDecode(token);
         setPatientId(decodedToken.username);
+        console.log(decodedToken.username);
       }
       // Replace the patientId with the actual one (this should be part of the billing data or fetched separately)
       fetchPatientData(patientId); // Replace with actual patientId

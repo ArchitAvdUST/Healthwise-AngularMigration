@@ -46,31 +46,50 @@ const GetHistory: React.FC = () => {
     <>
       <PatientNavbar />
 
-      <Box sx={{ padding: 3 }}>
+      <Box
+      sx={{
+        background: 'linear-gradient(90deg, #bbdefb 0%, #b2ebf2 50%, #bbdefb 100%)',
+        minHeight: '100vh',
+        minWidth: '100vw',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 3,
+      }}
+    >
+      <Box sx={{ padding: 3, maxWidth: 800, width: '100%' }}>
         <Typography variant="h4" gutterBottom>
           Medical History
         </Typography>
 
-        <Grid item xs={4}>
-            <Box sx={{ padding: 2, border: '1px solid #ccc', borderRadius: 2, backgroundColor: 'white' }}>
-              <Typography variant="h6">Patient History</Typography>
-              {/* Check if patientHistory is not empty */}
-              {patientHistory && patientHistory.length > 0 ? (
-                patientHistory.map((historyItem, index) => (
-                  <div key={index} style={{ marginBottom: '16px', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}>
-                    <div style={{ fontWeight: 'bold' }}>{`Date: ${historyItem.date}`}</div>
-                    <div style={{ fontWeight: 'bold' }}>{`Time: ${historyItem.time}`}</div>
-                    <div style={{ fontWeight: 'bold' }}>{`Doctor: ${historyItem.doctorUserName}`}</div>
-                    <div style={{ fontWeight: 'bold' }}>{`Comment: ${historyItem.comment}`}</div>
-                    <div>{`Symptoms: ${historyItem.symptoms}`}</div>
-                  </div>
-                ))
-              ) : (
-                <div>No history available.</div>
-              )}
-            </Box>
-          </Grid>
+        <Grid item xs={12}>
+          <Box sx={{ padding: 2, border: '1px solid #ccc', borderRadius: 2, backgroundColor: 'white' }}>
+            <Typography variant="h6">Patient History</Typography>
+            {patientHistory && patientHistory.length > 0 ? (
+              patientHistory.map((historyItem, index) => (
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: '16px',
+                    padding: '8px',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                  }}
+                >
+                  <div style={{ fontWeight: 'bold' }}>{`Date: ${historyItem.date}`}</div>
+                  <div style={{ fontWeight: 'bold' }}>{`Time: ${historyItem.time}`}</div>
+                  <div style={{ fontWeight: 'bold' }}>{`Doctor: ${historyItem.doctorUserName}`}</div>
+                  <div style={{ fontWeight: 'bold' }}>{`Comment: ${historyItem.comment}`}</div>
+                  <div>{`Symptoms: ${historyItem.symptoms}`}</div>
+                </div>
+              ))
+            ) : (
+              <div>No history available.</div>
+            )}
+          </Box>
+        </Grid>
       </Box>
+    </Box>
     </>
   );
 };

@@ -76,7 +76,7 @@ const AdditionalInfo: React.FC = () => {
       // Redirect to the Patient Dashboard after successful submission
       setTimeout(() => {
         navigate('/'); // Adjust this path to your actual patient dashboard route
-      }, 3000); // Optional delay for user to see the success message
+      }, 1500); // Optional delay for user to see the success message
     } catch (error) {
       console.error('Error submitting information', error);
       setError('Failed to submit information. Please try again.');
@@ -84,77 +84,106 @@ const AdditionalInfo: React.FC = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box sx={{ mt: 8, mb: 2 }}>
-        <Typography component="h1" variant="h5">
-          Additional Information
-        </Typography>
-        {error && <Typography color="error">{error}</Typography>}
-        {success && <Typography color="primary">{success}</Typography>}
-        <form onSubmit={handleSubmit}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Age"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-          />
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="sex-label">sex</InputLabel>
-            <Select
-              labelId="sex-label"
-              value={sex}
-              onChange={(e) => setsex(e.target.value)}
+    <Container
+      component="main"
+      maxWidth={false}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh', // Full height to cover the viewport
+        background: 'linear-gradient(90deg, #bbdefb 0%, #b2ebf2 50%, #bbdefb 100%)',
+      }}
+    >
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            mt: 8,
+            mb: 2,
+            p: 3,
+            border: '1px solid #ccc', // Add border
+            borderRadius: '8px',
+            boxShadow: 2, // Add shadow for depth
+            backgroundColor: 'white', // White background for the container
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Additional Information
+          </Typography>
+          {error && <Typography color="error">{error}</Typography>}
+          {success && <Typography color="primary">{success}</Typography>}
+          <form onSubmit={handleSubmit}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="sex-label">Sex</InputLabel>
+              <Select
+                labelId="sex-label"
+                value={sex}
+                onChange={(e) => setsex(e.target.value)}
+              >
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: '#1976d2',
+                '&:hover': {
+                  backgroundColor: '#004ba0',
+                },
+              }}
             >
-              <MenuItem value="male">Male</MenuItem>
-              <MenuItem value="female">Female</MenuItem>
-              <MenuItem value="other">Other</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Submit
-          </Button>
-        </form>
-      </Box>
+              Submit
+            </Button>
+          </form>
+        </Box>
+      </Container>
     </Container>
   );
 };

@@ -89,6 +89,7 @@ const ViewBill: React.FC = () => {
       // Make a request to update the billing information
       await axios.put(`http://localhost:5000/api/billings/${billingId}`, editableData);
       alert('Billing information updated successfully!');
+      navigate('/admin/dashboard');
       // Optionally, navigate to another page or refresh the data
     } catch (err) {
       alert('Failed to update billing information');

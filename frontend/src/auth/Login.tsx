@@ -65,18 +65,29 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth={false}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh', // Full height to cover the viewport
+        background: 'linear-gradient(90deg, #bbdefb 0%, #b2ebf2 50%, #bbdefb 100%)',
+      }}
+    >
       <Box
         sx={{
-          mt: 8,
-          mb: 2,
-          p: 3,
-          border: '1px solid #ccc', // Add border
+          width: '100%',
+          maxWidth: '400px', // Set a max width for the login box
+          backgroundColor: 'white', // White background for the login container
+          padding: '24px',
+          border: '1px solid #ccc', // Border for the login container
           borderRadius: '8px',
-          boxShadow: 2, // Add shadow for depth
+          boxShadow: 2,
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
           Login
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
@@ -106,9 +117,9 @@ const Login: React.FC = () => {
             sx={{
               mt: 3,
               mb: 2,
-              backgroundColor: '#1976d2', // Base color
+              backgroundColor: '#1976d2',
               '&:hover': {
-                backgroundColor: '#004ba0', // Dark blue on hover
+                backgroundColor: '#004ba0',
               },
             }}
           >
@@ -118,6 +129,7 @@ const Login: React.FC = () => {
       </Box>
     </Container>
   );
+  
 };
 
 export default Login;

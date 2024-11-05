@@ -88,8 +88,8 @@ const GenerateBill: React.FC = () => {
               {patients.map((patient) => (
                 <TableRow key={patient._id}>
                   <TableCell>{patient._id}</TableCell>
-                  <TableCell>{patient.patientName}</TableCell>
-                  <TableCell>${patient.totalCost}</TableCell>
+                  <TableCell>{patient.patientId}</TableCell>
+                  <TableCell>Not yet generated</TableCell>
                   <TableCell align="right">
                     <Button
                       variant="contained"
