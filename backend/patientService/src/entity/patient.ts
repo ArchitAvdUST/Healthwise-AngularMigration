@@ -6,9 +6,10 @@ export interface Patient extends Document {
   age: number;
   email: string;
   phone: string;
-  //adharNumber: number;
-  medicalHistory: string; 
+  //adharNumber: number; 
   username: string;
+  primaryPatientUsername: string;
+  relationshipToPrimaryPatient: string;
 }
 
 const PatientSchema: Schema = new Schema({
@@ -18,8 +19,9 @@ const PatientSchema: Schema = new Schema({
   email: { type: String, required: true },
   phone: { type: String, required: true },
   //adharNumber: { type: Number},
-  medicalHistory: { type: String},
-  username: {type: String, required: true, unique:true}
+  username: {type: String, required: true, unique:true},
+  primaryPatientUsername: {type:String},
+  relationshipToPrimaryPatient: {type: String},
 });
 
 const Patient = mongoose.model<Patient>('patient', PatientSchema);

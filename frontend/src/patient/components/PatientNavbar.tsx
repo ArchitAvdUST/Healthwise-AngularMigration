@@ -69,6 +69,11 @@ const PatientNavbar: React.FC = () => {
     navigate('/patient/update-profile');
   }
 
+  function handleDependent(): void {
+    handleClose();
+    navigate('/patient/dependents');
+  }
+
   return (
     <AppBar position="static" >
       <Toolbar>
@@ -113,6 +118,7 @@ const PatientNavbar: React.FC = () => {
           }}
         >
           <MenuItem onClick={handleUpdateProfile}>Update Profile Details</MenuItem>
+          <MenuItem onClick={handleDependent}> Handle Dependents</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Toolbar>

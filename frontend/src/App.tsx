@@ -35,6 +35,9 @@ import ShowBill from './patient/showBill';
 import PharmacyDashboard from './pharmacy/pd';
 import ViewStocks from './pharmacy/ViewStocks';
 import AddStocks from './pharmacy/Addstocks';
+import Dependent from './patient/Dependent';
+import AddDependents from './patient/AddDependents';
+import ViewDependents from './patient/ViewDependents';
 
 const App: React.FC = () => {
   return (
@@ -55,6 +58,9 @@ const App: React.FC = () => {
           <Route path='/patient/update-profile' element={<UpdateDetails />} />
           <Route path='/patient/showBill' element={<ShowBill/>} />
           <Route path='/patient/Seebill'  element={<SeeBill/>} />
+          <Route path='/patient/dependent' element={<Dependent />} />
+          <Route path='/patient/add-dependents' element={<AddDependents />} />
+          <Route path='/patient/view-dependents' element={<ViewDependents />} />
 
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path="/admin/add-doctors" element={<AddDoctors />} />

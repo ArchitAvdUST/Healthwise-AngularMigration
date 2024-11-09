@@ -134,7 +134,14 @@ const SignUp: React.FC = () => {
               fullWidth
               label="Username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {
+                const input = e.target.value;
+                // Allow input only if it does not contain the underscore character
+                if (!input.includes('_')) {
+                  setUsername(input);
+                }
+              }}
+              helperText="Username should not contain the '_' character."
             />
             <TextField
               margin="normal"

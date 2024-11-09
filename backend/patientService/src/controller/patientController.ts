@@ -118,15 +118,39 @@ export const getPatientsBySex = async (req: Request, res: Response) => {
 };
 
 // Get Medical History for a Patient
-export const getMedicalHistory = async (req: Request, res: Response) => {
-  const { username } = req.params;
-  try {
-    const patient = await Patient.findOne({username: username});
-    if (!patient) {
-       res.status(404).json({ message: "Patient not found" });
+// export const getMedicalHistory = async (req: Request, res: Response) => {
+//   const { username } = req.params;
+//   try {
+//     const patient = await Patient.findOne({username: username});
+//     if (!patient) {
+//        res.status(404).json({ message: "Patient not found" });
+//     }
+//     res.status(200).json({ medicalHistory: patient?.medicalHistory });
+//   } catch (error) {
+//     res.status(400).json({ message: 'Error fetching medical history', error});
+//   }
+// };
+
+export const getDependentsByPatient = async(req: Request, res: Response) => {
+  const {primaryPatientUsername} = req.params;
+  try{
+    const dependents = await Patient.find({ primaryPatientUsername });
+
+    // If no dependents found, return a 404 error
+    if (!dependents || dependents.length === 0) {
+      return res.status(404).json({ message: 'No dependents found for this patient' });
     }
-    res.status(200).json({ medicalHistory: patient?.medicalHistory });
-  } catch (error) {
-    res.status(400).json({ message: 'Error fetching medical history', error});
+
+    // Return the dependents, excluding email, phone, and primaryPatientUsername fields
+    const dependentsData = dependents.map(dependent => {
+      const { name, sex, age, relationshipToPrimaryPatient } = dependent;
+      return { name, sex, age, relationshipToPrimaryPatient };
+    });
+
+    // Send the dependents data back in the response
+    res.status(200).json(dependentsData);
+  }
+  catch(error){
+    res.status(400).json({message: "Error fectching dependents",error});
   }
 };

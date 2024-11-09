@@ -9,7 +9,8 @@ import {
   getPatientsByAgeRange,
   getPatientCount,
   getPatientsBySex,
-  getMedicalHistory
+  getDependentsByPatient,
+  //getMedicalHistory
 } from '../controller/patientController'; // Adjust the path as necessary
 
 const router = Router();
@@ -42,6 +43,8 @@ router.get('/patients/count', getPatientCount);
 router.get('/patients/sex/:sex', getPatientsBySex);
 
 // Get medical history for a specific patient
-router.get('/patients/:username/medical-history', getMedicalHistory);
+//router.get('/patients/:username/medical-history', getMedicalHistory);
+
+router.get('/patients/dependents/:primaryPatientUsername',getDependentsByPatient as any);
 
 export default router;
