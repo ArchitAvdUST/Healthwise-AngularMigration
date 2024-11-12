@@ -1,6 +1,7 @@
 import express from "express";
 import { connectDb } from "./connectDb";
 import timingRoutes from "./routes/timingRoutes";
+import { startTimingCleanupJob } from "./jobs/timingsCleanupJobs";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,8 @@ app.use(cors(corsOptions));
 connectDb();
 
 app.use('/api',timingRoutes);
+
+startTimingCleanupJob();
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
