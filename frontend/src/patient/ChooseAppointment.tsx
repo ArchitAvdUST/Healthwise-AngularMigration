@@ -50,6 +50,7 @@ const AppointmentBooking: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [username, setusername] = useState<string>('');
   const [symptom, setsymptom] = useState<string>('');
+  const [patientUsername, setpatientUsername] = useState('');
 
   // Fetch all timings (dates, available slots, and booked slots) for the doctor
   useEffect(() => {
@@ -116,6 +117,12 @@ const AppointmentBooking: React.FC = () => {
       const appointmentTime = `${formatDate(selectedDate!)} at ${ slotStart? formatTime(slotStart): slotStart} to  ${ slotEnd? formatTime(slotEnd): slotEnd}`; // Combine start and end times if needed
       try {
         //console.log(doctorId);
+        const username = sessionStorage.getItem('username');
+        console.log("Username :",username);
+        // if(username){
+        // await setpatientUsername(username);
+        // }
+        // console.log("Patient Username:",patientUsername);
         await axios.post('http://localhost:5000/api/appointments', {
           doctorUserName: doctorId,
           patientId: username,
@@ -145,7 +152,8 @@ const AppointmentBooking: React.FC = () => {
         if (timingToUpdate) {
           await axios.put(`http://localhost:5000/api/timings/${timingToUpdate._id}`, timingToUpdate);
         }
-
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('symptom');
         // Redirect to another page or confirmation screen
         setTimeout(() => {
           navigate('/patient/dashboard');

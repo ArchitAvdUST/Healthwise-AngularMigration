@@ -42,11 +42,24 @@ const ShowBill: React.FC = () => {
         //setLoading(false);
         return;
       }
-
+      const dependentsResponse = await axios.get(`http://localhost:5000/api/patients/dependents/${patientId}`);
+      const dependents = dependentsResponse.data.map((dependent: { username: string }) => dependent.username);
+      const usernames = [patientId, ...dependents];
+      //console.log(usernames);
       
       try {
-        const response = await axios.get(`http://localhost:5000/api/billings/patient/${patientId}`);
-        setBillingRecords(response.data);
+        const billingPromises = usernames.map(id => 
+          axios.get(`http://localhost:5000/api/billings/patient/${id}`).catch(error => {
+            console.error(`Failed to fetch billing for patient ID ${id}`, error);
+            return null; // Return null to handle failures gracefully
+          })
+        );
+        const billingResponses = await Promise.all(billingPromises);
+        console.log(billingResponses);
+        const validBillingResponses = billingResponses.filter(response => response !== null);
+        const allBillingRecords = validBillingResponses.flatMap(response => response?.data || []);
+        console.log(allBillingRecords);
+        setBillingRecords(allBillingRecords);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 404) {
           // Handle 404 error: No data available

@@ -57,7 +57,7 @@ const ActionDoctor: React.FC = () => {
 
       try {
         const response = await axios.get(`http://localhost:5000/api/appointments/get/${appointmentId}`);
-        setAppointment(response.data);
+        await setAppointment(response.data);
         return response.data; // Return appointment data to be used later
       } catch (err) {
         console.error('Error fetching appointment details:', err);

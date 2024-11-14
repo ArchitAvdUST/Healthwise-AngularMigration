@@ -26,11 +26,13 @@ export const getAllPatients = async (req: Request, res: Response) => {
 export const getAPatient = async (req: Request, res: Response) => {
   try {
     const { username } = req.params;
-    const patient = await Patient.findOne({username: username});
+    const patient = await Patient.findOne({ username: username });
     if (!patient) {
       res.status(404).json({ message: "Patient not found" });
     }
-    res.status(200).json(patient);
+    else {
+      res.status(200).json(patient);
+    }
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error fetching the patient", error: error });
@@ -41,11 +43,13 @@ export const getAPatient = async (req: Request, res: Response) => {
 export const updatePatient = async (req: Request, res: Response) => {
   try {
     const { username } = req.params;
-    const updatedPatient = await Patient.findOneAndUpdate({username: username}, req.body, { new: true, runValidators: true });
+    const updatedPatient = await Patient.findOneAndUpdate({ username: username }, req.body, { new: true, runValidators: true });
     if (!updatedPatient) {
-       res.status(404).json({ message: "Patient not found" });
+      res.status(404).json({ message: "Patient not found" });
     }
-    res.status(200).json(updatedPatient);
+    else {
+      res.status(200).json(updatedPatient);
+    }
   } catch (error) {
     res.status(400).json({ message: "Error updating the patient", error });
   }
@@ -55,33 +59,33 @@ export const updatePatient = async (req: Request, res: Response) => {
 export const deletePatient = async (req: Request, res: Response) => {
   try {
     const { username } = req.params;
-    const result = await Patient.findOneAndDelete({username: username});
+    const result = await Patient.findOneAndDelete({ username: username });
     if (!result) {
-       res.status(404).json({ message: "Patient not found" });
+      res.status(404).json({ message: "Patient not found" });
     }
     res.status(200).json({ message: "Patient deleted successfully", patient: result });
   } catch (error) {
-    res.status(400).json({ message: "Error deleting the patient", error});
+    res.status(400).json({ message: "Error deleting the patient", error });
   }
 };
 
 // Search Patients by Name
 export const searchPatientsByName = async (req: Request, res: Response) => {
-    const { name } = req.query;
+  const { name } = req.query;
 
-    console.log("Searching for patients with name:", name);
+  console.log("Searching for patients with name:", name);
 
-    try {
-        // Ensure name parameter is provided
-        if (!name) {
-            return res.status(400).json({ message: 'Name parameter is required' });
-        }
-
-        const patients = await Patient.find({ name: { $regex: name, $options: 'i' } });
-        res.status(200).json(patients);
-    } catch (error) {
-        res.status(500).json({ message: 'Error searching patients', error: error });
+  try {
+    // Ensure name parameter is provided
+    if (!name) {
+      return res.status(400).json({ message: 'Name parameter is required' });
     }
+
+    const patients = await Patient.find({ name: { $regex: name, $options: 'i' } });
+    res.status(200).json(patients);
+  } catch (error) {
+    res.status(500).json({ message: 'Error searching patients', error: error });
+  }
 };
 
 
@@ -92,7 +96,7 @@ export const getPatientsByAgeRange = async (req: Request, res: Response) => {
     const patients = await Patient.find({ age: { $gte: min, $lte: max } });
     res.status(200).json(patients);
   } catch (error) {
-    res.status(400).json({ message: 'Error fetching patients by age range', error});
+    res.status(400).json({ message: 'Error fetching patients by age range', error });
   }
 };
 
@@ -131,9 +135,9 @@ export const getPatientsBySex = async (req: Request, res: Response) => {
 //   }
 // };
 
-export const getDependentsByPatient = async(req: Request, res: Response) => {
-  const {primaryPatientUsername} = req.params;
-  try{
+export const getDependentsByPatient = async (req: Request, res: Response) => {
+  const { primaryPatientUsername } = req.params;
+  try {
     const dependents = await Patient.find({ primaryPatientUsername });
 
     // If no dependents found, return a 404 error
@@ -143,14 +147,14 @@ export const getDependentsByPatient = async(req: Request, res: Response) => {
 
     // Return the dependents, excluding email, phone, and primaryPatientUsername fields
     const dependentsData = dependents.map(dependent => {
-      const { name, sex, age, relationshipToPrimaryPatient } = dependent;
-      return { name, sex, age, relationshipToPrimaryPatient };
+      const { name, relationshipToPrimaryPatient, username, primaryPatientUsername } = dependent;
+      return { name, relationshipToPrimaryPatient, username, primaryPatientUsername };
     });
 
     // Send the dependents data back in the response
     res.status(200).json(dependentsData);
   }
-  catch(error){
-    res.status(400).json({message: "Error fectching dependents",error});
+  catch (error) {
+    res.status(400).json({ message: "Error fectching dependents", error });
   }
 };

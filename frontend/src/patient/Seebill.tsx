@@ -21,12 +21,8 @@ const SeeBill: React.FC = () => {
   const fetchPatientData = async (patientId: string) => {
     try {
       const response = await axios.get(`http://localhost:5000/api/patients/${patientId}`);
-      if (response.data.length > 0) {
-        setPatientName(response.data[0].name); // Set the name from the first element
-        console.log(response.data[0]); // Log the first element of the array
-      } else {
-        console.log('No patient data available');
-      }
+      console.log('PatientId:',patientId);
+        setPatientName(response.data.name); // Set the name from the first element
     } catch (error) {
       console.error('Error fetching patient data', error);
     }
@@ -42,6 +38,7 @@ const SeeBill: React.FC = () => {
       setMedicineCost(billingData.medicinesCost);
       setConsultationCost(billingData.consultationCost);
       setReportCost(billingData.reportCost);
+      await setPatientId(billingData.patientId);
 
       // Calculate total cost
       const total = billingData.medicinesCost + billingData.consultationCost + billingData.reportCost;
@@ -53,27 +50,37 @@ const SeeBill: React.FC = () => {
 
   // Fetch patientId and billing information based on appointmentId
   useEffect(() => {
-    const fetchedAID= sessionStorage.getItem('appointmentId');
-    if(fetchedAID){
-      setAppointmentId(fetchedAID);
-    }
-    if (appointmentId) {
-      // Fetch today's date
-      const today = new Date().toISOString().split('T')[0]; // Format as yyyy-mm-dd
-      setBillDate(today);
-      const token = sessionStorage.getItem('token');
-      
-      // Fetch patient and billing data
-      if(token){
-        const decodedToken: any = jwtDecode(token);
-        setPatientId(decodedToken.username);
-        console.log(decodedToken.username);
+    const fetchData = async () => {
+      const fetchedAID = sessionStorage.getItem('appointmentId');
+      if (fetchedAID) {
+        setAppointmentId(fetchedAID);
       }
-      // Replace the patientId with the actual one (this should be part of the billing data or fetched separately)
-      fetchPatientData(patientId); // Replace with actual patientId
-      fetchBillingData(appointmentId);
-    }
-  }, [appointmentId]);
+      
+      if (appointmentId) {
+        // Fetch today's date
+        const today = new Date().toISOString().split('T')[0]; // Format as yyyy-mm-dd
+        setBillDate(today);
+  
+       // const token = sessionStorage.getItem('token');
+        
+        // if (token) {
+        //   const decodedToken: any = jwtDecode(token);
+        //   setPatientId(decodedToken.username);
+        //   console.log(decodedToken.username);
+        // }
+  
+        // Wait for fetchBillingData to complete before calling fetchPatientData
+        await fetchBillingData(appointmentId);
+        if (patientId) {
+          await fetchPatientData(patientId); // Use the updated patientId
+        }
+        //await fetchPatientData(patientId); // Call after fetchBillingData completes
+        console.log('Finished patient ID');
+      }
+    };
+  
+    fetchData();
+  }, [appointmentId,patientId]);
 
   // Handle PDF download
   const handleDownloadPDF = () => {
