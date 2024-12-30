@@ -1,0 +1,5 @@
+.my-bg {
+  background: linear-gradient(225deg, #3a6d8c, #6a9ab0); /* Example gradient */
+  height: 100vh; /* Full page height */
+  margin: 0;
+}

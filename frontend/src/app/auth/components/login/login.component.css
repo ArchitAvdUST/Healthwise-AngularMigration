@@ -1,0 +1,30 @@
+.my-bg {
+  background: linear-gradient(225deg, #3a6d8c, #6a9ab0); /* Example gradient */
+  height: 100vh; /* Full page height */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.form-container {
+  background-color: white; /* White box background */
+  padding: 30px; /* Padding inside the form */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  width: 100%;
+  max-width: 400px; /* Maximum width of the form */
+}
+
+.btn-center {
+  display: block;
+  width: 100%; /* Make the button full-width */
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

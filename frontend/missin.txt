@@ -1,4 +1,4 @@
 /doctors
 /pharmacy
 /signup
-/login
+/register
