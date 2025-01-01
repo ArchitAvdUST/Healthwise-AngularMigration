@@ -1,6 +1,5 @@
 import {Route} from '@angular/router';
 import {HomeComponent} from './home/home.component';
-import { LoginComponent } from './auth/components/login/login.component';
 
 export const appRoutes: Route[] = [
   {
@@ -11,8 +10,8 @@ export const appRoutes: Route[] = [
     path: '',
     component: HomeComponent,
   },
-  // {
-  //   path: 'login',
-  //   component: LoginComponent
-  // }
+  {
+    path: 'patient',
+    loadChildren: () => import('./patient/patient.routes').then((m) => m.patientRoutes),
+  }
 ];

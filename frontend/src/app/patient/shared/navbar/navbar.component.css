@@ -1,0 +1,85 @@
+nav {
+    margin: 0px;
+    background: hsl(0, 0%, 98%);
+    padding: 5px;
+  
+    .healthwiseApp {
+        cursor: pointer;
+      li {
+        a {
+          font-size: 28px; /* Larger font size for HealthWise App */
+          font-weight: 600; /* Bold font weight */
+          color: #000; /* Black color for emphasis */
+          text-transform: capitalize; /* Ensure it's in uppercase */
+          text-decoration: none;
+          transition: color 0.35s ease-in-out;
+          position: relative;
+  
+          &::before {
+            content: attr(data-item);
+            transition: 0.5s;
+            color: #8254ff;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 0;
+            overflow: hidden;
+          }
+  
+          &:hover {
+            &::before {
+              width: 100%;
+              transition: all 0.35s ease-in-out;
+            }
+          }
+        }
+      }
+    }
+  
+    .menuItems {
+      list-style: none;
+      display: flex;
+  
+      li {
+        margin-right: 20px;
+  
+        a {
+          font-size: 18px; /* Smaller font size for menu items */
+          font-weight: 400; /* Normal font weight */
+          color: #1d1c1c; 
+          text-decoration: none;
+          text-transform: capitalize;
+          transition: color 0.2s ease-in-out;
+          position: relative;
+          cursor: pointer;
+  
+          &::before {
+            content: attr(data-item);
+            transition: 0.5s;
+            color: #8254ff;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 0;
+            overflow: hidden;
+          }
+  
+          &:hover {
+            &::before {
+              width: 100%;
+              transition: all 0.35s ease-in-out;
+            }
+          }
+        }
+      }
+  
+      &.me-auto {
+        margin-right: auto; /* Push this group to the left */
+      }
+    }
+  }
+  
