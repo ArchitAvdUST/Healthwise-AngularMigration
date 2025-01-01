@@ -1,11 +1,24 @@
 <div class="my-bg">
-  <form action="" class="form-container">
+  <form action="" class="form-container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <!-- @if(isSubmitting && loginForm.errors?.['invalidCredentials']){
+      <div class="alert alert-danger">Incorrect username and password</div>
+    }
+    @if(isSubmitting && loginForm.errors?.['invalidRole']){
+      <div class="alert alert-danger">Invalid Role. Contact administrator</div>
+    } -->
+    <div *ngIf="loginForm.errors?.['invalidCredentials']" class="alert alert-danger mb-3">
+      Incorrect username and password
+    </div>
+    <div *ngIf="loginForm.errors?.['invalidRole']" class="alert alert-danger mb-3">
+      Invalid Role. Contact administrator
+    </div>
     <div class="mb-3">
       <label for="username" class="form-label">Username</label>
       <input
         type="text"
         class="form-control"
         id="username"
+        formControlName="username"
         placeholder="Enter your username"
       />
     </div>
@@ -16,6 +29,7 @@
         name="password"
         id="password"
         class="form-control"
+        formControlName="password"
         placeholder="Enter your password"
       />
     </div>
