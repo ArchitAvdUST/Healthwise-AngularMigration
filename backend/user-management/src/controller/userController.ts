@@ -79,7 +79,7 @@ export const getUser = async (req: Request, res: Response) => {
         const {username} = req.params;
         const user = await User.findOne({username: username});
         if(user){
-            res.status(404).json({message:"Username already present"});
+            res.status(406).json({message:"Username already present"});
         }
         else
         {

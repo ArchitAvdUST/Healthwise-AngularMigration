@@ -19,4 +19,12 @@ export class AuthService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any>(`${this.apiUrl}/${username}/role`, { headers });
   }
+
+  checkUsername(username: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${username}`);
+  }
+
+  register(username: string, password: string,role: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}`, {username, password, role});
+  }
 }

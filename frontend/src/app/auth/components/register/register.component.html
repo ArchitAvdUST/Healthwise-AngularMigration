@@ -1,0 +1,115 @@
+<div class="register-container">
+  <div class="wizard-container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Step 1: Basic Info -->
+      <div *ngIf="currentStep === 1">
+        <h3>Step 1: Personal Info</h3>
+        <div>
+          <label for="name">Name:</label>
+          <input id="name" class="form-control" formControlName="name" type="text" />
+        </div>
+        <div>
+          <label for="email">Email:</label>
+          <input id="email" class="form-control" formControlName="email" type="email" />
+        </div>
+        <div>
+          <label for="phone">Phone:</label>
+          <input id="phone" class="form-control" formControlName="phone" type="text" />
+        </div>
+        <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+      </div>
+
+      <!-- Step 2: Additional Info -->
+      <div *ngIf="currentStep === 2">
+        <h3>Step 2: Additional Info</h3>
+        <div>
+          <label for="age">Age:</label>
+          <input id="age" class="form-control" formControlName="age" type="number">
+        </div>
+        <div>
+          <label for="sex">Sex:</label>
+          <div class="btn-group" role="group" aria-label="Sex selection">
+            <button 
+              type="button" 
+              class="btn btn-option" 
+              [ngClass]="{'active': sexControl?.value === 'male'}"
+              (click)="selectSex('male')">
+              Male
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-option" 
+              [ngClass]="{'active': sexControl?.value === 'female'}"
+              (click)="selectSex('female')">
+              Female
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-option" 
+              [ngClass]="{'active': sexControl?.value === 'other'}"
+              (click)="selectSex('other')">
+              Other
+            </button>
+          </div>
+        </div>
+        <div>
+          <label for="address">Address:</label>
+          <textarea id="address" class="form-control" formControlName="address"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="prevStep()">Previous</button>
+        <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+      </div>
+
+      <!-- Step 3: Account Info -->
+      <div *ngIf="currentStep === 3">
+        <h3>Step 3: Account Info</h3>
+        <div>
+            <label for="username">Username:</label>
+            <input 
+              id="username" 
+              class="form-control" 
+              formControlName="username" 
+              type="text"
+            >
+          
+            <!-- Show error message if username exists -->
+            <span *ngIf="usernameExists === true && this.form.get('username')?.value" class="text-danger">
+              Username is already taken!
+            </span>
+          
+            <!-- Show custom error message from catchError -->
+            <span *ngIf="errorMessage" class="text-danger">
+              {{ errorMessage }}
+            </span>
+          
+            <!-- Show success if username is available -->
+            <span *ngIf="usernameExists === false" class="text-success">
+              Username is available.
+            </span>
+          
+          </div>
+        <div>
+          <label for="password">Password:</label>
+          <input id="password" class="form-control" formControlName="password" type="password">
+          <div *ngIf="passwordStrength">
+            <span [ngClass]="passwordStrengthClass">{{ passwordStrength }}</span>
+          </div>
+        </div>
+        <div>
+          <label for="confirmPassword">Confirm Password:</label>
+          <input id="confirmPassword" class="form-control" formControlName="confirmPassword" type="password">
+          <div *ngIf="form.controls['confirmPassword'].touched">
+            <span *ngIf="form.controls['confirmPassword'].value !== form.controls['password'].value" class="text-danger">
+              Passwords do not match.
+            </span>
+            <span *ngIf="form.controls['confirmPassword'].value === form.controls['password'].value" class="text-success">
+              Passwords match.
+            </span>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="prevStep()">Previous</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
