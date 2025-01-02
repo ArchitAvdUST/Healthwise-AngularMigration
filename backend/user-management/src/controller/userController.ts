@@ -83,7 +83,7 @@ export const getUser = async (req: Request, res: Response) => {
         }
         else
         {
-            res.status(200).json(user);
+            res.status(200).json({message:"Username available"});
         }
     }
     catch(error){

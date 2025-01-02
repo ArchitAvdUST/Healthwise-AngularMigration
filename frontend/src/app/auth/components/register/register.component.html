@@ -73,7 +73,7 @@
             >
           
             <!-- Show error message if username exists -->
-            <span *ngIf="usernameExists === true && this.form.get('username')?.value" class="text-danger">
+            <span *ngIf="usernameExists === true" class="text-danger">
               Username is already taken!
             </span>
           
