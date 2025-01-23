@@ -15,3 +15,18 @@
 .nav-link:hover {
   color: rgba(255, 255, 255, 0.8);
 }
+
+
+/* Flexbox setup for the body */
+.main-content {
+  min-height: 76vh;
+}
+
+/* Footer styles */
+footer {
+  background-color: #343a40; /* Dark background */
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto; /* Push footer to the bottom */
+}

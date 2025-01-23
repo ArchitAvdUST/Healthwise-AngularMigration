@@ -17,7 +17,7 @@
           d="M5 1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1zm2 14h2v-3H7zm3 0h1V3H5v12h1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1zm0-14H6v1h4zm2 7v7h3V8zm-8 7V8H1v7z"
         />
       </svg>
-      <span class="fw-bold"> HealthWise App</span>
+      <span class="fw-bold ms-2"> HealthWise App</span>
     </a>
 
     <!-- Navigation Items -->
@@ -31,9 +31,10 @@
 </nav>
 
 <!-- Main Content Area -->
-<div class="container mt-5">
+<div class="container main-content mt-5">
   <div class="row">
-    <div class="col">
+    <!-- Text column -->
+    <div class="col-12 col-md-6">
       <h1 class="display-4">Welcome to HealthWise Application</h1>
       <p class="lead">Your trusted partner for online healthcare services</p>
       <p>
@@ -42,12 +43,12 @@
       </p>
       <div class="mt-4">
         <a routerLink="/signup" class="btn btn-primary me-3">Get Started</a>
-        <a routerLink="/doctors" class="btn btn-outline-primary"
-          >Find Doctors</a
-        >
+        <a routerLink="/doctors" class="btn btn-outline-primary">Find Doctors</a>
       </div>
     </div>
-    <div class="col text-center">
+    
+    <!-- Image column -->
+    <div class="col-12 col-md-6 text-center">
       <img
         src="assets/healthcareImage.jpg"
         alt="Description"
@@ -56,3 +57,7 @@
     </div>
   </div>
 </div>
+
+<footer class="bg-dark text-white text-center py-3">
+  <p>&copy; {{ currentYear }} HealthWise App. All Rights Reserved.</p>
+</footer>
