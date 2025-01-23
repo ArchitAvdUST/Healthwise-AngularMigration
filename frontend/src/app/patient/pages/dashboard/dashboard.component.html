@@ -1,3 +1,39 @@
-<app-navbar></app-navbar>
-
-<p>dashboard works!</p>
+<div>
+    <!-- Navbar -->
+    <app-navbar></app-navbar>
+  
+    <!-- Container with options -->
+    <div class="container mt-4">
+      <div class="row">
+        <!-- Left Half: Greeting -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+          <h2 class="text-primary">Hi, {{ patientName }}!</h2>
+        </div>
+  
+        <!-- Right Half: Buttons -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+          <div class="d-grid gap-2" style="max-width: 200px;">
+            <button *ngIf="!loading && !error" class="btn btn-primary" (click)="handleGetAppointmentClick()">Get Appointments</button>
+            <button *ngIf="!loading && !error" class="btn btn-primary" (click)="handleBookAppointmentClick()">Book Appointment</button>
+            <button *ngIf="!loading && !error" class="btn btn-primary" (click)="handleGetMedicalHistory()">Get Medical History</button>
+            <button *ngIf="!loading && !error" class="btn btn-primary" (click)="handleViewBills()">Show Bills</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Loading spinner -->
+      <div *ngIf="loading" class="d-flex justify-content-center mt-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+  
+      <!-- Error Alert -->
+      <div *ngIf="error" class="mt-4">
+        <div class="alert alert-danger" role="alert">
+          {{ error }}
+        </div>
+      </div>
+    </div>
+  </div>
+  

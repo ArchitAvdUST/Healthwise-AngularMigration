@@ -1,0 +1,24 @@
+/* Styling for the patient dashboard */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button {
+    margin-bottom: 10px;
+  }
+  
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .alert {
+    text-align: center;
+  }
+  
