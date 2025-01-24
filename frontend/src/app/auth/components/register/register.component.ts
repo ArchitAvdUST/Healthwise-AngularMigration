@@ -174,7 +174,19 @@ export class RegisterComponent implements OnInit {
               this.form.setErrors({
                 serverError: 'Registration failed. Please try again.',
               });
+
+
             }
+          }
+        );
+
+        this.authService.registerPatient(this.form.value.name,this.form.value.age,this.form.value.sex,this.form.value.email,this.form.value.phone,this.form.value.address,this.form.value.username).subscribe(
+          (response) => {
+            console.log('Patient Registration successful:', response);
+            // Navigate to login page after successful registration
+          },
+          (error) => {
+            console.error('Patient Registration failed:', error);
           }
         );
       // Here, you would typically send the form data to your server

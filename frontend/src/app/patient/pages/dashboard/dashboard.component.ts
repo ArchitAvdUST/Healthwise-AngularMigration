@@ -25,16 +25,24 @@ export class PatientDashboardComponent implements OnInit {
   async fetchUserData() {
     try {
       this.loading = true;
-      const token = sessionStorage.getItem('token');
-      if (token) {
-        const decodedToken: { username: string } = jwtDecode(token);
-        const username = decodedToken.username;
-        const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        this.patientName = response.data.name;
+
+      // Check if we're in the browser environment before using sessionStorage
+      if (typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined') {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+          const decodedToken: { username: string } = jwtDecode(token);
+          const username = decodedToken.username;
+          const response = await axios.get(`http://localhost:5000/api/patients/${username}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          this.patientName = response.data.name;
+        } else {
+          this.router.navigate(['/login']);
+        }
       } else {
-        this.router.navigate(['/login']);
+        // Handle case where sessionStorage is unavailable (e.g., server-side rendering)
+        console.error('sessionStorage is not available');
+        //this.router.navigate(['/login']);
       }
     } catch (err) {
       console.log(err);
